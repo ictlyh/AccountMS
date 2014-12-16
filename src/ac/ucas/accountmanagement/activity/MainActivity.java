@@ -7,7 +7,7 @@
  */
 /**
  * ClassName: MainActivity
- * Function: TODO ADD FUNCTION.
+ * Function: 系统主页
  * @author yhluo
  * @version 
  */
@@ -16,6 +16,7 @@ package ac.ucas.accountmanagement.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +37,7 @@ public class MainActivity extends Activity {
 	GridView gvInfo;//创建GridView对象
 	//定义字符串数组，存储系统功能
 	String[] titles = new String[] { "新增支出", "新增收入", "我的支出",
-			"我的收入", "数据管理","系统设置", "收支便签", "退出" };
+			"我的收入", "数据管理","更改密码", "收支便签", "退出" };
 	//定义int数组，存储功能对应的图标
 	int[] images = new int[] { R.drawable.addoutaccount, R.drawable.addinaccount,
 			R.drawable.outaccountinfo, R.drawable.inaccountinfo,
@@ -57,38 +58,45 @@ public class MainActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Intent intent = null;// 创建Intent对象
+				Intent intent = null;//创建Intent对象
 				switch (arg2) {
 				case 0:
-					intent = new Intent(MainActivity.this, AddOutAccount.class);// 使用AddOutaccount窗口初始化Intent
-					startActivity(intent);// 打开AddOutaccount
+					//使用AddOutAccount窗口初始化Intent
+					intent = new Intent(MainActivity.this, AddOutAccount.class);
+					startActivity(intent);//打开AddOutAccount
 					break;
 				case 1:
-					intent = new Intent(MainActivity.this, AddInAccount.class);// 使用AddInaccount窗口初始化Intent
-					startActivity(intent);// 打开AddInaccount
+					//使用AddInAccount窗口初始化Intent
+					intent = new Intent(MainActivity.this, AddInAccount.class);
+					startActivity(intent);//打开AddInAccount
 					break;
 				case 2:
-					intent = new Intent(MainActivity.this, OutAccountInfo.class);// 使用Outaccountinfo窗口初始化Intent
-					startActivity(intent);// 打开Outaccountinfo
+					//使用OutAccountInfo窗口初始化Intent
+					intent = new Intent(MainActivity.this, OutAccountInfo.class);
+					startActivity(intent);//打开OutAccountInfo
 					break;
 				case 3:
-					intent = new Intent(MainActivity.this, InAccountInfo.class);// 使用InAccountInfo窗口初始化Intent
-					startActivity(intent);// 打开Inaccountinfo
+					//使用InAccountInfo窗口初始化Intent
+					intent = new Intent(MainActivity.this, InAccountInfo.class);
+					startActivity(intent);//打开InAccountInfo
 					break;
 				case 4:
-					intent = new Intent(MainActivity.this, ShowInfo.class);// 使用ShowInfo窗口初始化Intent
-					startActivity(intent);// 打开Showinfo
+					//使用ShowInfo窗口初始化Intent
+					intent = new Intent(MainActivity.this, ShowInfo.class);
+					startActivity(intent);//打开ShowInfo
 					break;
 				case 5:
-					intent = new Intent(MainActivity.this, Sysset.class);// 使用Sysset窗口初始化Intent
-					startActivity(intent);// 打开Sysset
+					//使用Sysset窗口初始化Intent
+					intent = new Intent(MainActivity.this, Sysset.class);
+					startActivity(intent);//打开Sysset
 					break;
 				case 6:
-					intent = new Intent(MainActivity.this, AccountFlag.class);// 使用AccountFlag窗口初始化Intent
-					startActivity(intent);// 打开AccountFlag
+					//使用AccountFlag窗口初始化Intent
+					intent = new Intent(MainActivity.this, AccountFlag.class);
+					startActivity(intent);//打开AccountFlag
 					break;
 				case 7:
-					finish();// 关闭当前Activity
+					finish();//关闭当前Activity
 				}
 			}
 		});
@@ -135,7 +143,7 @@ class pictureAdapter extends BaseAdapter {
 		return arg0;
 	}
 
-	@Override
+	@SuppressLint("InflateParams") @Override
 	public View getView(int arg0, View arg1, ViewGroup arg2) {
 		ViewHolder viewHolder;	//创建ViewHolder对象
 		//判断图像标识是否为空

@@ -7,7 +7,7 @@
  */
 /**
  * ClassName: FlagManagement
- * Function: TODO ADD FUNCTION.
+ * Function: 便签管理
  * @author yhluo
  * @version 
  */
@@ -50,7 +50,7 @@ public class FlagManagement extends Activity {
 		btnEdit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				TableFlag tb_flag = new TableFlag();				//创建Tb_flag对象
+				TableFlag tb_flag = new TableFlag();				//创建TableFlag对象
 				tb_flag.set_id(Integer.parseInt(strid));			//设置便签id
 				tb_flag.setFlag(txtFlag.getText().toString());		//设置便签值
 				flagDAO.update(tb_flag);							//修改便签信息

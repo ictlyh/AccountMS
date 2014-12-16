@@ -15,7 +15,7 @@
 			android:layout_width="wrap_content"
 			android:layout_gravity="center"
 			android:gravity="center_horizontal"
-			android:text="支出管理"
+			android:text="@string/expendmanage"
 			android:textColor="#ffffff"
 			android:textSize="40sp"
 			android:textStyle="bold" 
@@ -34,7 +34,7 @@
 		    <TextView android:layout_width="90dp" 
 		    android:id="@+id/tvInOutMoney" 
 		    android:textSize="20sp" 
-		    android:text="金  额：" 
+		    android:text="@string/ammount" 
 		    android:layout_height="wrap_content" 
 		    android:layout_alignBaseline="@+id/txtInOutMoney" 
 		    android:layout_alignBottom="@+id/txtInOutMoney" 
@@ -47,13 +47,12 @@
 		    android:layout_height="wrap_content"
 		    android:layout_toRightOf="@id/tvInOutMoney"
 		    android:inputType="number"
-		    android:numeric="integer"
 		    android:maxLength="9"
 		    />
 		    <TextView android:layout_width="90dp" 
 		    android:id="@+id/tvInOutTime" 
 		    android:textSize="20sp" 
-		    android:text="时  间：" 
+		    android:text="@string/time" 
 		    android:layout_height="wrap_content" 
 		    android:layout_alignBaseline="@+id/txtInOutTime" 
 		    android:layout_alignBottom="@+id/txtInOutTime" 
@@ -70,7 +69,7 @@
 		    <TextView android:layout_width="90dp" 
 		    android:id="@+id/tvInOutType" 
 		    android:textSize="20sp" 
-		    android:text="类  别：" 
+		    android:text="@string/type" 
 		    android:layout_height="wrap_content" 
 		    android:layout_alignBaseline="@+id/spInOutType" 
 		    android:layout_alignBottom="@+id/spInOutType" 
@@ -87,7 +86,7 @@
 		    <TextView android:layout_width="90dp" 
 		    android:id="@+id/tvInOut" 
 		    android:textSize="20sp" 
-		    android:text="付款方：" 
+		    android:text="@string/payer" 
 		    android:layout_height="wrap_content" 
 		    android:layout_alignBaseline="@+id/txtInOut" 
 		    android:layout_alignBottom="@+id/txtInOut" 
@@ -95,6 +94,7 @@
 		    </TextView>
 		    <EditText 
 		    android:id="@+id/txtInOut"
+		    android:inputType="text"
 		    android:layout_width="210dp"
 		    android:layout_height="wrap_content"
 		    android:layout_toRightOf="@id/tvInOut"
@@ -104,13 +104,14 @@
 		    <TextView android:layout_width="90dp" 
 		    android:id="@+id/tvInOutMark" 
 		    android:textSize="20sp" 
-		    android:text="备  注：" 
+		    android:text="@string/mark" 
 		    android:layout_height="wrap_content" 
 		    android:layout_alignTop="@+id/txtInOutMark" 
 		    android:layout_toLeftOf="@+id/txtInOut">
 		    </TextView>
 		    <EditText 
 		    android:id="@+id/txtInOutMark"
+		    android:inputType="textMultiLine"
 		    android:layout_width="210dp"
 		    android:layout_height="150dp"
 		    android:layout_toRightOf="@id/tvInOutMark"
@@ -136,14 +137,14 @@
 		    android:layout_height="wrap_content"
 		    android:layout_alignParentRight="true"
 		    android:layout_marginLeft="10dp"
-		    android:text="删除"
+		    android:text="@string/delete"
 		    />
 		    <Button 
 			android:id="@+id/btnInOutEdit"
 			android:layout_width="80dp"
 		    android:layout_height="wrap_content"
 			android:layout_toLeftOf="@id/btnInOutDelete"
-			android:text="修改"    
+			android:text="@string/change"    
 		    />
 		</RelativeLayout>
 	</LinearLayout>	

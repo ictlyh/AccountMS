@@ -55,10 +55,10 @@ public class PwdDAO {
 	 * 查找密码信息
 	 * @return
 	 */
-	public TablePassword find() {
+	public TablePassword find(String userID) {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
 		//查找密码并存储到Cursor类中
-		Cursor cursor = db.rawQuery("select userID,password from tb_pwd", null);
+		Cursor cursor = db.rawQuery("select userID,password from tb_pwd where userID = ?", new String[] { userID });
 		//遍历查找到的密码信息
 		if (cursor.moveToNext()) {
 			// 将密码存储到Tb_pwd类中

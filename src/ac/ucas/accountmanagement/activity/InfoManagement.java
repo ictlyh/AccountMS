@@ -7,7 +7,7 @@
  */
 /**
  * ClassName: InfoManagement
- * Function: TODO ADD FUNCTION.
+ * Function: 收入支出管理
  * @author yhluo
  * @version 
  */
@@ -48,8 +48,8 @@ public class InfoManagement extends Activity {
 	private int mMonth;									//月
 	private int mDay;									//日
 
-	OutAccountDAO outaccountDAO = new OutAccountDAO(InfoManagement.this);	//创建OutaccountDAO对象
-	InAccountDAO inaccountDAO = new InAccountDAO(InfoManagement.this);		//创建InaccountDAO对象
+	OutAccountDAO outaccountDAO = new OutAccountDAO(InfoManagement.this);	//创建OutAccountDAO对象
+	InAccountDAO inaccountDAO = new InAccountDAO(InfoManagement.this);		//创建InAccountDAO对象
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class InfoManagement extends Activity {
 		if (strType.equals("btnoutinfo")) {
 			tvtitle.setText("支出管理");							//设置标题为“支出管理”
 			textView.setText("地  点：");							//设置“地点/付款方”标签文本为“地 点：”
-			//根据编号查找支出信息，并存储到Tb_outaccount对象中
+			//根据编号查找支出信息，并存储到TableOutAccount对象中
 			TableOutAccount tb_outaccount = outaccountDAO.find(Integer.parseInt(strid));
 			txtMoney.setText(String.valueOf(tb_outaccount.getMoney()));//显示金额
 			txtTime.setText(tb_outaccount.getTime());			//显示时间
@@ -86,7 +86,7 @@ public class InfoManagement extends Activity {
 		else if (strType.equals("btnininfo")) {
 			tvtitle.setText("收入管理");							//设置标题为“收入管理”
 			textView.setText("付款方：");						//设置“地点/付款方”标签文本为“付款方：”
-			//根据编号查找收入信息，并存储到Tb_inaccount对象中
+			//根据编号查找收入信息，并存储到TableInAccount对象中
 			TableInAccount tb_inaccount = inaccountDAO.find(Integer.parseInt(strid));
 			txtMoney.setText(String.valueOf(tb_inaccount.getMoney()));// 显示金额
 			txtTime.setText(tb_inaccount.getTime());			//显示时间
@@ -109,7 +109,7 @@ public class InfoManagement extends Activity {
 			public void onClick(View arg0) {
 				//判断类型如果是btnoutinfo
 				if (strType.equals("btnoutinfo")) {
-					TableOutAccount tb_outaccount = new TableOutAccount();	//创建Tb_outaccount对象
+					TableOutAccount tb_outaccount = new TableOutAccount();	//创建TableOutAccount对象
 					tb_outaccount.set_id(Integer.parseInt(strid));			//设置编号
 					tb_outaccount.setMoney(Double.parseDouble(txtMoney.getText().toString()));//设置金额
 					tb_outaccount.setTime(txtTime.getText().toString());	//设置时间
@@ -120,7 +120,7 @@ public class InfoManagement extends Activity {
 				}
 				//判断类型如果是btnininfo
 				else if (strType.equals("btnininfo")) {
-					TableInAccount tb_inaccount = new TableInAccount();		//创建Tb_inaccount对象
+					TableInAccount tb_inaccount = new TableInAccount();		//创建TableInAccount对象
 					tb_inaccount.set_id(Integer.parseInt(strid));			//设置编号
 					tb_inaccount.setMoney(Double.parseDouble(txtMoney.getText().toString()));//设置金额
 					tb_inaccount.setTime(txtTime.getText().toString());		//设置时间

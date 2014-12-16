@@ -11,11 +11,11 @@
 			android:layout_weight="0.06">
 		<RelativeLayout android:layout_height="wrap_content" 
 			android:layout_width="match_parent">
-		<TextView android:text="我的收入" 
+		<TextView android:text="@string/inaccountinfo" 
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:gravity="center"
-			android:textSize="20dp"
+			android:textSize="20sp"
 			android:textColor="#8C6931"
 		/>
 		</RelativeLayout>

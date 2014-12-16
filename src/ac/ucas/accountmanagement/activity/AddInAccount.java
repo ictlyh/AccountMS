@@ -7,7 +7,7 @@
  */
 /**
  * ClassName: AddInAccount
- * Function: TODO ADD FUNCTION.
+ * Function: 新增收入
  * @author yhluo
  * @version 
  */
@@ -54,7 +54,8 @@ public class AddInAccount extends Activity {
 		btnInSaveButton = (Button) findViewById(R.id.btnInSave);//获取保存按钮
 		btnInCancelButton = (Button) findViewById(R.id.btnInCancel);//获取取消按钮
 
-		txtInTime.setOnClickListener(new OnClickListener() {	//为时间文本框设置单击监听事件
+		//为时间文本框设置单击监听事件
+		txtInTime.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
 						showDialog(DATE_DIALOG_ID);				//显示日期选择对话框
@@ -67,9 +68,9 @@ public class AddInAccount extends Activity {
 					public void onClick(View arg0) {
 						String strInMoney = txtInMoney.getText().toString();// 获取金额文本框的值
 						if (!strInMoney.isEmpty()) {			//判断金额不为空
-							//创建InaccountDAO对象
+							//创建InAccountDAO对象
 							InAccountDAO inaccountDAO = new InAccountDAO(AddInAccount.this);
-							//创建Tb_inaccount对象
+							//创建TableInAccount对象
 							TableInAccount tb_inaccount = new TableInAccount(
 									inaccountDAO.getMaxId() + 1,
 									Double.parseDouble(strInMoney),

@@ -7,7 +7,7 @@
  */
 /**
  * ClassName: InAccountInfo
- * Function: TODO ADD FUNCTION.
+ * Function: 收入信息
  * @author yhluo
  * @version 
  */
@@ -60,13 +60,14 @@ public class InAccountInfo extends Activity {
 		String[] strInfos = null;						//定义字符串数组，用来存储收入信息
 		ArrayAdapter<String> arrayAdapter = null;		//创建ArrayAdapter对象
 		strType = "btnininfo";							//为strType变量赋值
-		InAccountDAO inaccountinfo = new InAccountDAO(InAccountInfo.this);//创建InaccountDAO对象
+		InAccountDAO inaccountinfo = new InAccountDAO(InAccountInfo.this);//创建InAccountDAO对象
 		//获取所有收入信息，并存储到List泛型集合中
 		List<TableInAccount> listinfos = inaccountinfo.getScrollData(0,
 				(int) inaccountinfo.getCount());
 		strInfos = new String[listinfos.size()];		//设置字符串数组的长度
 		int m = 0;										//定义一个开始标识
-		for (TableInAccount tb_inaccount : listinfos) {	//遍历List泛型集合
+		//遍历List泛型集合
+		for (TableInAccount tb_inaccount : listinfos) {	
 			//将收入相关信息组合成一个字符串，存储到字符串数组的相应位置
 			strInfos[m] = tb_inaccount.get_id() + "|" + tb_inaccount.getType()
 					+ " " + String.valueOf(tb_inaccount.getMoney()) + "元     "

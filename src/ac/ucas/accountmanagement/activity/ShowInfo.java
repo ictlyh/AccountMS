@@ -7,7 +7,7 @@
  */
 /**
  * ClassName: ShowInfo
- * Function: TODO ADD FUNCTION.
+ * Function: 收入，支出，便签信息显示
  * @author yhluo
  * @version 
  */
@@ -86,7 +86,7 @@ public class ShowInfo extends Activity {
 				String strid = strInfo.substring(0, strInfo.indexOf('|'));		//从项信息中截取编号
 				Intent intent = null;											//创建Intent对象
 				//判断如果是支出或者收入信息
-				if (strType == "btnoutinfo" | strType == "btnininfo") {
+				if (strType == "btnoutinfo" || strType == "btnininfo") {
 					intent = new Intent(ShowInfo.this, InfoManagement.class);	//使用InfoManagement窗口初始化Intent对象
 					intent.putExtra(FLAG, new String[] { strid, strType });		//设置要传递的数据
 				}
@@ -125,7 +125,7 @@ public class ShowInfo extends Activity {
 			
 		case R.id.btnininfo:							//如果是btnininfo按钮
 			strType = "btnininfo";						//为strType变量赋值
-			InAccountDAO inaccountinfo = new InAccountDAO(ShowInfo.this);// 创建InaccountDAO对象
+			InAccountDAO inaccountinfo = new InAccountDAO(ShowInfo.this);// 创建InAccountDAO对象
 			//获取所有收入信息，并存储到List泛型集合中
 			List<TableInAccount> listinfos = inaccountinfo.getScrollData(0, (int) inaccountinfo.getCount());
 			strInfos = new String[listinfos.size()];	//设置字符串数组的长度

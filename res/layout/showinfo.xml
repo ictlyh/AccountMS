@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/iteminfo" android:orientation="vertical"
 	android:layout_width="wrap_content" android:layout_height="wrap_content"
-	android:layout_marginTop="5dp"
+	android:layout_marginTop="5sp"
 	android:weightSum="1">
 	<LinearLayout android:id="@+id/linearLayout1"
 			android:layout_height="wrap_content" 
@@ -11,27 +11,27 @@
 			android:layout_weight="0.06">
 		<RelativeLayout android:layout_height="wrap_content" 
 			android:layout_width="match_parent">
-		<Button android:text="支出信息" 
+		<Button android:text="@string/expendinfo" 
 			android:id="@+id/btnoutinfo"
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content"
-			android:textSize="20dp"
+			android:textSize="20sp"
 			android:textColor="#8C6931"
 		/>
-		<Button android:text="收入信息" 
+		<Button android:text="@string/incomeinfo" 
 			android:id="@+id/btnininfo"
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content"
 			android:layout_toRightOf="@id/btnoutinfo"
-			android:textSize="20dp"
+			android:textSize="20sp"
 			android:textColor="#8C6931"
 			/>
-		<Button android:text="便签信息" 
+		<Button android:text="@string/flaginfo" 
 			android:id="@+id/btnflaginfo"
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content"
 			android:layout_toRightOf="@id/btnininfo"
-			android:textSize="20dp"
+			android:textSize="20sp"
 			android:textColor="#8C6931"
 			/>
 		</RelativeLayout>

@@ -7,7 +7,7 @@
  */
 /**
  * ClassName: AccountFlag
- * Function: TODO ADD FUNCTION.
+ * Function: 新增便签
  * @author yhluo
  * @version 
  */
@@ -39,14 +39,16 @@ public class AccountFlag extends Activity {
 		txtFlag = (EditText) findViewById(R.id.txtFlag);					//获取便签文本框
 		btnflagSaveButton = (Button) findViewById(R.id.btnflagSave);		//获取保存按钮
 		btnflagCancelButton = (Button) findViewById(R.id.btnflagCancel);	//获取取消按钮
-		btnflagSaveButton.setOnClickListener(new OnClickListener() {		//为保存按钮设置监听事件
+		
+		//为保存按钮设置监听事件
+		btnflagSaveButton.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
 						String strFlag = txtFlag.getText().toString();		//获取便签文本框的值
 						if (!strFlag.isEmpty()) {							//判断获取的值不为空
 							FlagDAO flagDAO = new FlagDAO(AccountFlag.this);//创建FlagDAO对象
 							TableFlag tb_flag = new TableFlag(
-									flagDAO.getMaxId() + 1, strFlag);		//创建Tb_flag对象
+									flagDAO.getMaxId() + 1, strFlag);		//创建TableFlag对象
 							flagDAO.add(tb_flag);							//添加便签信息
 							// 弹出信息提示
 							Toast.makeText(AccountFlag.this, "〖新增便签〗数据添加成功！",
@@ -58,7 +60,8 @@ public class AccountFlag extends Activity {
 					}
 				});
 
-		btnflagCancelButton.setOnClickListener(new OnClickListener() {		//为取消按钮设置监听事件
+		//为取消按钮设置监听事件
+		btnflagCancelButton.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
 						txtFlag.setText("");								//清空便签文本框

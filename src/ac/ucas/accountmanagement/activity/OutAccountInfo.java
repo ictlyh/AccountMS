@@ -7,7 +7,7 @@
  */
 /**
  * ClassName: OutAccountInfo
- * Function: TODO ADD FUNCTION.
+ * Function: 支出管理
  * @author yhluo
  * @version 
  */
@@ -61,7 +61,7 @@ public class OutAccountInfo extends Activity {
 		String[] strInfos = null;					//定义字符串数组，用来存储支出信息
 		ArrayAdapter<String> arrayAdapter = null;	//创建ArrayAdapter对象
 		strType = "btnoutinfo";						//为strType变量赋值
-		OutAccountDAO outaccountinfo = new OutAccountDAO(OutAccountInfo.this);// 创建OutaccountDAO对象
+		OutAccountDAO outaccountinfo = new OutAccountDAO(OutAccountInfo.this);// 创建OutAccountDAO对象
 		//获取所有支出信息，并存储到List泛型集合中
 		List<TableOutAccount> listoutinfos = outaccountinfo.getScrollData(0, (int) outaccountinfo.getCount());
 		strInfos = new String[listoutinfos.size()];	//设置字符串数组的长度

@@ -15,7 +15,7 @@
 			android:layout_width="wrap_content"
 			android:layout_gravity="center"
 			android:gravity="center_horizontal"
-			android:text="新增收入"
+			android:text="@string/newincome"
 			android:textSize="40sp"
 			android:textColor="#ffffff"
 			android:textStyle="bold" 
@@ -34,7 +34,7 @@
 		    <TextView android:layout_width="90dp" 
 		    android:id="@+id/tvInMoney" 
 		    android:textSize="20sp" 
-		    android:text="金  额：" 
+		    android:text="@string/ammount" 
 		    android:layout_height="wrap_content" 
 		    android:layout_alignBaseline="@+id/txtInMoney" 
 		    android:layout_alignBottom="@+id/txtInMoney" 
@@ -47,14 +47,13 @@
 		    android:layout_height="wrap_content"
 		    android:layout_toRightOf="@id/tvInMoney"
 		    android:inputType="number"
-		    android:numeric="integer"
 		    android:maxLength="9"
-		    android:hint="0.00"
+		    android:hint="@string/defaultmoney"
 		    />
 		    <TextView android:layout_width="90dp" 
 		    android:id="@+id/tvInTime" 
 		    android:textSize="20sp" 
-		    android:text="时  间：" 
+		    android:text="@string/time" 
 		    android:layout_height="wrap_content" 
 		    android:layout_alignBaseline="@+id/txtInTime" 
 		    android:layout_alignBottom="@+id/txtInTime" 
@@ -67,12 +66,12 @@
 		    android:layout_toRightOf="@id/tvInTime"
 		    android:layout_below="@id/txtInMoney"
 		    android:inputType="datetime"
-		    android:hint="2011-01-01"
+		    android:hint="@string/defaulttime"
 		    />
 		    <TextView android:layout_width="90dp" 
 		    android:id="@+id/tvInType" 
 		    android:textSize="20sp" 
-		    android:text="类  别：" 
+		    android:text="@string/type" 
 		    android:layout_height="wrap_content" 
 		    android:layout_alignBaseline="@+id/spInType" 
 		    android:layout_alignBottom="@+id/spInType" 
@@ -88,7 +87,7 @@
 		    <TextView android:layout_width="90dp" 
 		    android:id="@+id/tvInHandler" 
 		    android:textSize="20sp" 
-		    android:text="付款方：" 
+		    android:text="@string/payer" 
 		    android:layout_height="wrap_content" 
 		    android:layout_alignBaseline="@+id/txtInHandler" 
 		    android:layout_alignBottom="@+id/txtInHandler" 
@@ -96,6 +95,7 @@
 		    </TextView>
 		    <EditText 
 		    android:id="@+id/txtInHandler"
+		    android:inputType="text"
 		    android:layout_width="210dp"
 		    android:layout_height="wrap_content"
 		    android:layout_toRightOf="@id/tvInHandler"
@@ -105,13 +105,14 @@
 		    <TextView android:layout_width="90dp" 
 		    android:id="@+id/tvInMark" 
 		    android:textSize="20sp" 
-		    android:text="备  注：" 
+		    android:text="@string/mark" 
 		    android:layout_height="wrap_content" 
 		    android:layout_alignTop="@+id/txtInMark" 
 		    android:layout_toLeftOf="@+id/txtInHandler">
 		    </TextView>
 		    <EditText 
 		    android:id="@+id/txtInMark"
+		    android:inputType="textMultiLine"
 		    android:layout_width="210dp"
 		    android:layout_height="150dp"
 		    android:layout_toRightOf="@id/tvInMark"
@@ -137,14 +138,14 @@
 		    android:layout_height="wrap_content"
 		    android:layout_alignParentRight="true"
 		    android:layout_marginLeft="10dp"
-		    android:text="取消"
+		    android:text="@string/cancle"
 		    />
 		    <Button 
 			android:id="@+id/btnInSave"
 			android:layout_width="80dp"
 		    android:layout_height="wrap_content"
 			android:layout_toLeftOf="@id/btnInCancel"
-			android:text="保存"    
+			android:text="@string/save"    
 		    />
 		</RelativeLayout>
 	</LinearLayout>	

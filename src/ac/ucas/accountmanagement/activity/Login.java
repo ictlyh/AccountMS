@@ -7,7 +7,7 @@
  */
 /**
  * ClassName: Login
- * Function: TODO ADD FUNCTION.
+ * Function: 登录系统
  * @author yhluo
  * @version 
  */
@@ -23,21 +23,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import ac.ucas.accountmanagement.dao.PwdDAO;
+import ac.ucas.accountmanagement.model.TablePassword;
 import ac.ucas.accountmanagementsystem.R;
 
 public class Login extends Activity {
 	
-	EditText txtlogin;				//创建EditText对象
-	Button btnlogin, btnclose;		//创建两个Button对象
+	EditText txtloginname, txtloginpwd;			//创建两个EditText对象
+	Button btnlogin, btnregist, btnclose;		//创建两个Button对象
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.login);						//设置布局文件
+		setContentView(R.layout.login);								//设置布局文件
 
-		txtlogin = (EditText) findViewById(R.id.txtLogin);	//获取密码文本框
-		btnlogin = (Button) findViewById(R.id.btnLogin);	//获取登录按钮
-		btnclose = (Button) findViewById(R.id.btnClose);	//获取取消按钮
+		txtloginname = (EditText) findViewById(R.id.txtLoginName);	//获取用户名文本框
+		txtloginpwd = (EditText) findViewById(R.id.txtLoginPwd);	//获取密码文本框
+		btnlogin = (Button) findViewById(R.id.btnLogin);			//获取登录按钮
+		btnregist = (Button) findViewById(R.id.btnRegist);			//获取注册按钮
+		btnclose = (Button) findViewById(R.id.btnClose);			//获取取消按钮
 
 		//为登录按钮设置监听事件
 		btnlogin.setOnClickListener(new OnClickListener() {
@@ -45,25 +48,45 @@ public class Login extends Activity {
 			public void onClick(View arg0) {
 				Intent intent = new Intent(Login.this, MainActivity.class);	//创建Intent对象
 				PwdDAO pwdDAO = new PwdDAO(Login.this);						//创建PwdDAO对象
-				//判断是否有密码及是否输入了密码
-				if ((pwdDAO.getCount() == 0 || pwdDAO.find().getPassword().isEmpty())
-						&& txtlogin.getText().toString().isEmpty()) {
-					startActivity(intent);//启动主Activity
+				
+				//判断是否有此用户名
+				if(pwdDAO.find(txtloginname.getText().toString()) == null) {
+					Toast.makeText(Login.this, "用户名不存在！", Toast.LENGTH_SHORT).show();
 				}
-				//判断输入的密码是否与数据库中的密码一致
+				//判断密码是否正确
+				else if(pwdDAO.find(txtloginname.getText().toString()).getPassword().equals(txtloginpwd.getText().toString())) {
+					startActivity(intent);
+				}
 				else {
-					if (pwdDAO.find().getPassword().equals(txtlogin.getText().toString())) {
-						startActivity(intent);//启动主Activity
-					}
-					else {
-						//弹出信息提示
-						Toast.makeText(Login.this, "请输入正确的密码！", Toast.LENGTH_SHORT).show();
-					}
+					Toast.makeText(Login.this, "请输入正确的密码！", Toast.LENGTH_SHORT).show();
 				}
-				txtlogin.setText("");//清空密码文本框
+				txtloginname.setText("");	//清空用户名文本框
+				txtloginpwd.setText("");	//清空密码文本框
 			}
 		});
 
+		//为注册按钮设置监听事件
+		btnregist.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(Login.this, MainActivity.class);	//创建Intent对象
+				PwdDAO pwdDAO = new PwdDAO(Login.this);						//创建PwdDAO对象
+				
+				//判断是否有此用户名
+				if(pwdDAO.find(txtloginname.getText().toString()) != null) {
+					Toast.makeText(Login.this, "用户名已存在！", Toast.LENGTH_SHORT).show();
+				}
+				//插入用户名和密码到数据库
+				else {
+					pwdDAO.add(new TablePassword(txtloginname.getText().toString(),
+							txtloginpwd.getText().toString()));
+					startActivity(intent);
+				}
+				txtloginname.setText("");	//清空用户名文本框
+				txtloginpwd.setText("");	//清空密码文本框
+			}
+		});
+		
 		//为取消按钮设置监听事件
 		btnclose.setOnClickListener(new OnClickListener() {
 			@Override

@@ -7,7 +7,7 @@
  */
 /**
  * ClassName: AddOutAccount
- * Function: TODO ADD FUNCTION.
+ * Function: 新增支出
  * @author yhluo
  * @version 
  */
@@ -70,7 +70,7 @@ public class AddOutAccount extends Activity {
 						if (!strMoney.isEmpty()) {				//判断金额不为空
 							//创建OutaccountDAO对象
 							OutAccountDAO outaccountDAO = new OutAccountDAO(AddOutAccount.this);
-							//创建Tb_outaccount对象
+							//创建TableOutAccount对象
 							TableOutAccount tb_outaccount = new TableOutAccount(
 									outaccountDAO.getMaxId() + 1,
 									Double.parseDouble(strMoney),
