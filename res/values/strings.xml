@@ -11,5 +11,14 @@
     <string name="accountflag">收支便签</string>
     <string name="infomanage">收支管理</string>
     <string name="flagmanage">便签管理</string>
+    <string name="save">保存</string>
+    <string name="cancle">取消</string>
+    <string name="set">设置</string>
+    <string name="log_in">登录</string>
+    <string name="flaghint">请输入便签,最多输入200字</string>
+    <string name="pwdhint">请输入密码</string>
+    <string name="usernamehint">请输入用户名</string>
+    <string name="namepwdhint">请输入用户名和密码</string>
+    <string name="addflag">新增便签</string>
 
 </resources>

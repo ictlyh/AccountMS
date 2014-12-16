@@ -9,8 +9,8 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="center"
 		android:gravity="center_horizontal"
-		android:text="请输入用户名和密码："
-		android:textSize="25dp"
+		android:text="@string/namepwdhint"
+		android:textSize="25sp"
 		android:textColor="#8C6931"
 	/>
 	<EditText android:id="@+id/txtUserID"
@@ -18,14 +18,14 @@
 		android:layout_height="wrap_content"
 		android:layout_below="@id/tvPwd"
 		android:inputType="textPassword"
-		android:hint="请输入用户名"
+		android:hint="@string/usernamehint"
 	/>
 	<EditText android:id="@+id/txtPwd"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/txtUserID"
 		android:inputType="textPassword"
-		android:hint="请输入密码"
+		android:hint="@string/pwdhint"
 	/>
 	<Button android:id="@+id/btnsetCancel"
 		android:layout_width="90dp"
@@ -33,13 +33,13 @@
 		android:layout_below="@id/txtPwd"
 		android:layout_alignParentRight="true"
 		android:layout_marginLeft="10dp"
-		android:text="取消"
+		android:text="@string/cancle"
 	/>
 	<Button android:id="@+id/btnSet"
 		android:layout_width="90dp"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/txtPwd"
 		android:layout_toLeftOf="@id/btnsetCancel"
-		android:text="设置"
+		android:text="@string/set"
 	/>	
 </RelativeLayout>

@@ -15,7 +15,7 @@
 			android:layout_width="wrap_content"
 			android:layout_gravity="center"
 			android:gravity="center_horizontal"
-			android:text="新增便签"
+			android:text="@string/addflag"
 			android:textSize="40sp"
 			android:textColor="#ffffff"
 			android:textStyle="bold" 
@@ -34,13 +34,14 @@
 		    <TextView android:layout_width="350dp"	
 		    android:id="@+id/tvFlag" 
 		    android:textSize="23sp" 
-		    android:text="请输入便签，最多输入200字" 
+		    android:text="@string/flaghint" 
 		    android:textColor="#8C6931"
 		    android:layout_alignParentRight="true"
 		    android:layout_height="wrap_content" 
 		    />
 		    <EditText 
 		    android:id="@+id/txtFlag"
+		    android:inputType="textMultiLine"
 		    android:layout_width="350dp"
 		    android:layout_height="400dp"
 		    android:layout_below="@id/tvFlag"
@@ -65,14 +66,14 @@
 		    android:layout_height="wrap_content"
 		    android:layout_alignParentRight="true"
 		    android:layout_marginLeft="10dp"
-		    android:text="取消"
+		    android:text="@string/cancle"
 		    />
 		    <Button 
 			android:id="@+id/btnflagSave"
 			android:layout_width="80dp"
 		    android:layout_height="wrap_content"
 			android:layout_toLeftOf="@id/btnflagCancel"
-			android:text="保存"    
+			android:text="@string/save"
 			android:maxLength="200"
 		    />
 		</RelativeLayout>

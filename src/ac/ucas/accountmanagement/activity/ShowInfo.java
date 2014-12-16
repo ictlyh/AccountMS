@@ -51,13 +51,13 @@ public class ShowInfo extends Activity {
 		btnininfo = (Button) findViewById(R.id.btnininfo);		//获取布局文件中的收入信息按钮
 		btnflaginfo = (Button) findViewById(R.id.btnflaginfo);	//获取布局文件中的便签信息按钮
 
-		ShowInfo(R.id.btnoutinfo);								//默认显示支出信息
+		Showinfo(R.id.btnoutinfo);								//默认显示支出信息
 
 		//为支出信息按钮设置监听事件
 		btnoutinfo.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
-						ShowInfo(R.id.btnoutinfo);				//显示支出信息
+						Showinfo(R.id.btnoutinfo);				//显示支出信息
 					}
 				});
 
@@ -65,7 +65,7 @@ public class ShowInfo extends Activity {
 		btnininfo.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
-						ShowInfo(R.id.btnininfo);				//显示收入信息
+						Showinfo(R.id.btnininfo);				//显示收入信息
 					}
 				});
 		
@@ -73,7 +73,7 @@ public class ShowInfo extends Activity {
 		btnflaginfo.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
-						ShowInfo(R.id.btnflaginfo);				//显示便签信息
+						Showinfo(R.id.btnflaginfo);				//显示便签信息
 					}
 				});
 
@@ -101,7 +101,7 @@ public class ShowInfo extends Activity {
 	}
 
 	//用来根据传入的管理类型，显示相应的信息
-	private void ShowInfo(int intType) {
+	private void Showinfo(int intType) {
 		String[] strInfos = null;						// 定义字符串数组，用来存储收入信息
 		ArrayAdapter<String> arrayAdapter = null;		// 创建ArrayAdapter对象
 		//以intType为条件进行判断
@@ -167,6 +167,6 @@ public class ShowInfo extends Activity {
 	@Override
 	protected void onRestart() {
 		super.onRestart();			//实现基类中的方法
-		ShowInfo(R.id.btnoutinfo);	//显示支出信息
+		Showinfo(R.id.btnoutinfo);	//显示支出信息
 	}
 }
