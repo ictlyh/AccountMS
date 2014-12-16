@@ -36,7 +36,7 @@ public class PwdDAO {
 	public void add(TablePassword tb_pwd) {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
 		// 执行添加密码操作
-		db.execSQL("insert into tb_pwd (userID,password) values (?,?)",
+		db.execSQL("insert into tb_pwd (_id,password) values (?,?)",
 				new Object[] { tb_pwd.getUserID(), tb_pwd.getPassword() });
 	}
 
@@ -47,7 +47,7 @@ public class PwdDAO {
 	public void update(TablePassword tb_pwd) {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
 		//执行修改密码操作
-		db.execSQL("update tb_pwd set password = ? where userID = ?",
+		db.execSQL("update tb_pwd set password = ? where _id = ?",
 				new Object[] { tb_pwd.getPassword(), tb_pwd.getUserID() });
 	}
 
@@ -58,12 +58,12 @@ public class PwdDAO {
 	public TablePassword find(String userID) {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
 		//查找密码并存储到Cursor类中
-		Cursor cursor = db.rawQuery("select userID,password from tb_pwd where userID = ?", new String[] { userID });
+		Cursor cursor = db.rawQuery("select _id,password from tb_pwd where _id = ?", new String[] { userID });
 		//遍历查找到的密码信息
 		if (cursor.moveToNext()) {
-			// 将密码存储到Tb_pwd类中
+			// 将密码存储到TablePassword类中
 			return new TablePassword(
-					cursor.getColumnName(cursor.getColumnIndex("userID")),
+					cursor.getColumnName(cursor.getColumnIndex("_id")),
 					cursor.getString(cursor.getColumnIndex("password")));
 		}
 		return null;//如果没有信息，则返回null
