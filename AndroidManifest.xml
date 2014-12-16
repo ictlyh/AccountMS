@@ -8,44 +8,44 @@
         android:targetSdkVersion="18" />
 
     <application android:icon="@drawable/appicon" android:label="@string/app_name" android:allowBackup="true">
-        <activity android:name=".Login"
+        <activity android:name="ac.ucas.accountmanagement.activity.Login"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name="ac.ucas.accountmanagement.activity.MainActivity"
                   android:label="@string/app_name">
         </activity>
-		<activity  android:name=".AddOutAccount"
+		<activity  android:name="ac.ucas.accountmanagement.activity.AddOutAccount"
 			android:label="@string/addoutaccount">
 		</activity>
-		<activity  android:name=".AddInAccount"
+		<activity  android:name="ac.ucas.accountmanagement.activity.AddInAccount"
 			android:label="@string/addinaccount">
 		</activity>
-		<activity  android:name=".OutAccountInfo"
+		<activity  android:name="ac.ucas.accountmanagement.activity.OutAccountInfo"
 			android:label="@string/outaccountinfo">
 		</activity>
-		<activity  android:name=".InAccountInfo"
+		<activity  android:name="ac.ucas.accountmanagement.activity.InAccountInfo"
 			android:label="@string/inaccountinfo">
 		</activity>
-		<activity  android:name=".ShowInfo"
+		<activity  android:name="ac.ucas.accountmanagement.activity.ShowInfo"
 			android:label="@string/showinfo">
 		</activity>
-		<activity  android:name=".Sysset"
+		<activity  android:name="ac.ucas.accountmanagement.activity.Sysset"
 			android:label="@string/sysset">
 		</activity>
-		<activity  android:name=".AccountFlag"
+		<activity  android:name="ac.ucas.accountmanagement.activity.AccountFlag"
 			android:label="@string/accountflag">
 		</activity>
-		<activity  android:name=".InfoManagement"
+		<activity  android:name="ac.ucas.accountmanagement.activity.InfoManagement"
 			android:label="@string/infomanage">
 		</activity>
-		<activity  android:name=".FlagManagement"
+		<activity  android:name="ac.ucas.accountmanagement.activity.FlagManagement"
 			android:label="@string/flagmanage">
 		</activity>
-		<activity  android:name=".ChangePwd"
+		<activity  android:name="ac.ucas.accountmanagement.activity.ChangePwd"
 			android:label="@string/sysset">
 		</activity>
     </application>
