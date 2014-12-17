@@ -60,19 +60,27 @@
 		    android:layout_height="fill_parent"
 		    android:padding="10dp"
 		    >
-		<Button
-		    android:id="@+id/btnflagCancel"
+			<Button
+		    android:id="@+id/btnflagCancle"
 		    android:layout_width="80dp"
 		    android:layout_height="wrap_content"
 		    android:layout_alignParentRight="true"
-		    android:layout_marginLeft="10dp"
 		    android:text="@string/cancle"
+		    android:maxLength="200"
+		    />
+			<Button
+		    android:id="@+id/btnflagReset"
+		    android:layout_width="80dp"
+		    android:layout_height="wrap_content"
+		    android:layout_toLeftOf="@id/btnflagCancle"
+		    android:text="@string/reset"
+		    android:maxLength="200"
 		    />
 		    <Button 
 			android:id="@+id/btnflagSave"
 			android:layout_width="80dp"
 		    android:layout_height="wrap_content"
-			android:layout_toLeftOf="@id/btnflagCancel"
+			android:layout_toLeftOf="@id/btnflagReset"
 			android:text="@string/save"
 			android:maxLength="200"
 		    />

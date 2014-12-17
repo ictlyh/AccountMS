@@ -29,7 +29,7 @@ public class Sysset extends Activity {
 	
 	EditText txtuserid;					//创建EditText对象
 	EditText txtpwd;					//创建EditText对象
-	Button betconf, btnsetCancel;		//创建两个Button对象
+	Button betconf, btnsetCancle, btnsetReset;//创建两个Button对象
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,8 @@ public class Sysset extends Activity {
 		txtuserid = (EditText) findViewById(R.id.txtUserID);//获取用户名文本框
 		txtpwd = (EditText) findViewById(R.id.txtPwd);		//获取密码文本框
 		betconf = (Button) findViewById(R.id.btnConf);		//获取确定按钮
-		btnsetCancel = (Button) findViewById(R.id.btnsetCancel);//获取取消按钮
+		btnsetReset = (Button) findViewById(R.id.btnsetReset);//获取重置按钮
+		btnsetCancle = (Button) findViewById(R.id.btnsetCancle);//获取取消按钮
 
 		//为确定按钮添加监听事件
 		betconf.setOnClickListener(new OnClickListener() {
@@ -62,14 +63,22 @@ public class Sysset extends Activity {
 			}
 		});
 
-		btnsetCancel.setOnClickListener(new OnClickListener() {
-
+		//为重置按钮添加监听事件
+		btnsetReset.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				txtuserid.setText("");				//清空用户名文本框
 				txtuserid.setHint("请输入用户名");	//为用户名文本框设置提示
 				txtpwd.setText("");					//清空密码文本框
 				txtpwd.setHint("请输入密码");		//为密码文本框设置提示
+			}
+		});
+		
+		//为取消按钮添加监听事件
+		btnsetCancle.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				startActivity(new Intent(Sysset.this, MainActivity.class));
 			}
 		});
 	}

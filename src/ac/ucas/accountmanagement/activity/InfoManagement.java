@@ -130,7 +130,8 @@ public class InfoManagement extends Activity {
 					inaccountDAO.update(tb_inaccount);						//更新收入信息
 				}
 				//弹出信息提示
-				Toast.makeText(InfoManagement.this, "〖数据〗修改成功！", Toast.LENGTH_SHORT).show();
+				Toast.makeText(InfoManagement.this, "修改成功", Toast.LENGTH_SHORT).show();
+				InfoManagement.this.finish();
 			}
 		});
 
@@ -146,7 +147,8 @@ public class InfoManagement extends Activity {
 				else if (strType.equals("btnininfo")) {
 					inaccountDAO.detele(Integer.parseInt(strid));	//根据编号删除收入信息
 				}
-				Toast.makeText(InfoManagement.this, "〖数据〗删除成功！", Toast.LENGTH_SHORT).show();
+				Toast.makeText(InfoManagement.this, "数据删除成功", Toast.LENGTH_SHORT).show();
+				InfoManagement.this.finish();
 			}
 		});
 

@@ -49,16 +49,21 @@ public class Login extends Activity {
 				Intent intent = new Intent(Login.this, MainActivity.class);	//创建Intent对象
 				PwdDAO pwdDAO = new PwdDAO(Login.this);						//创建PwdDAO对象
 				
+				//判断用户名和密码是否为空
+				if(txtloginpwd.getText().toString().length() == 0 ||
+						txtloginname.getText().toString().length() == 0) {
+					Toast.makeText(Login.this, "用户名和密码不能为空", Toast.LENGTH_SHORT).show();
+				}
 				//判断是否有此用户名
-				if(pwdDAO.find(txtloginname.getText().toString()) == null) {
-					Toast.makeText(Login.this, "用户名不存在！", Toast.LENGTH_SHORT).show();
+				else if(pwdDAO.find(txtloginname.getText().toString()) == null) {
+					Toast.makeText(Login.this, "用户名不存在", Toast.LENGTH_SHORT).show();
 				}
 				//判断密码是否正确
 				else if(pwdDAO.find(txtloginname.getText().toString()).getPassword().equals(txtloginpwd.getText().toString())) {
 					startActivity(intent);
 				}
 				else {
-					Toast.makeText(Login.this, "请输入正确的密码！", Toast.LENGTH_SHORT).show();
+					Toast.makeText(Login.this, "密码错误", Toast.LENGTH_SHORT).show();
 				}
 				txtloginname.setText("");	//清空用户名文本框
 				txtloginpwd.setText("");	//清空密码文本框

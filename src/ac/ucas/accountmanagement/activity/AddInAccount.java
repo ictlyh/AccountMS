@@ -18,6 +18,7 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,6 +38,7 @@ public class AddInAccount extends Activity {
 	Spinner spInType;											//创建Spinner对象
 	Button btnInSaveButton;										//创建Button对象“保存”
 	Button btnInCancelButton;									//创建Button对象“取消”
+	Button btnInResetButton;									//创建Button对象“重置”
 
 	private int mYear;											//年
 	private int mMonth;											//月
@@ -53,55 +55,66 @@ public class AddInAccount extends Activity {
 		spInType = (Spinner) findViewById(R.id.spInType);		//获取类别下拉列表
 		btnInSaveButton = (Button) findViewById(R.id.btnInSave);//获取保存按钮
 		btnInCancelButton = (Button) findViewById(R.id.btnInCancel);//获取取消按钮
+		btnInResetButton = (Button) findViewById(R.id.btnInReset);//获取取消按钮
 
 		//为时间文本框设置单击监听事件
 		txtInTime.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View arg0) {
-						showDialog(DATE_DIALOG_ID);				//显示日期选择对话框
-					}
-				});
+			@Override
+			public void onClick(View arg0) {
+				showDialog(DATE_DIALOG_ID);				//显示日期选择对话框
+			}
+		});
 
 		//为保存按钮设置监听事件
 		btnInSaveButton.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View arg0) {
-						String strInMoney = txtInMoney.getText().toString();// 获取金额文本框的值
-						if (!strInMoney.isEmpty()) {			//判断金额不为空
-							//创建InAccountDAO对象
-							InAccountDAO inaccountDAO = new InAccountDAO(AddInAccount.this);
-							//创建TableInAccount对象
-							TableInAccount tb_inaccount = new TableInAccount(
-									inaccountDAO.getMaxId() + 1,
-									Double.parseDouble(strInMoney),
-									txtInTime.getText().toString(),
-									spInType.getSelectedItem().toString(),
-									txtInHandler.getText().toString(),
-									txtInMark.getText().toString());
-							inaccountDAO.add(tb_inaccount);		//添加收入信息
-							//弹出信息提示
-							Toast.makeText(AddInAccount.this, "〖新增收入〗数据添加成功！",
-									Toast.LENGTH_SHORT).show();
-						} else {
-							Toast.makeText(AddInAccount.this, "请输入收入金额！",
-									Toast.LENGTH_SHORT).show();
-						}
-					}
-				});
+			@Override
+			public void onClick(View arg0) {
+				String strInMoney = txtInMoney.getText().toString();// 获取金额文本框的值
+				//判断金额不为空
+				if (!strInMoney.isEmpty()) {
+					//创建InAccountDAO对象
+					InAccountDAO inaccountDAO = new InAccountDAO(AddInAccount.this);
+					//创建TableInAccount对象
+					TableInAccount tb_inaccount = new TableInAccount(
+							inaccountDAO.getMaxId() + 1,
+							Double.parseDouble(strInMoney),
+							txtInTime.getText().toString(),
+							spInType.getSelectedItem().toString(),
+							txtInHandler.getText().toString(),
+							txtInMark.getText().toString());
+					inaccountDAO.add(tb_inaccount);		//添加收入信息
+					//弹出信息提示
+					Toast.makeText(AddInAccount.this, "收入添加成功", Toast.LENGTH_SHORT).show();
+					//调转到主页面
+					startActivity(new Intent(AddInAccount.this, MainActivity.class));
+				} else {
+					Toast.makeText(AddInAccount.this, "请输入金额", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 
+		//为重置按钮设置监听事件
+		btnInResetButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				txtInMoney.setText("");					//设置金额文本框为空
+				txtInMoney.setHint("0.00");				//为金额文本框设置提示
+				txtInTime.setText("");					//设置时间文本框为空
+				txtInTime.setHint("2014-01-01");		//为时间文本框设置提示
+				txtInHandler.setText("");				//设置付款方文本框为空
+				txtInMark.setText("");					//设置备注文本框为空
+				spInType.setSelection(0);				//设置类别下拉列表默认选择第一项
+			}
+		});
+		
 		//为取消按钮设置监听事件
 		btnInCancelButton.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View arg0) {
-						txtInMoney.setText("");					//设置金额文本框为空
-						txtInMoney.setHint("0.00");				//为金额文本框设置提示
-						txtInTime.setText("");					//设置时间文本框为空
-						txtInTime.setHint("2014-01-01");		//为时间文本框设置提示
-						txtInHandler.setText("");				//设置付款方文本框为空
-						txtInMark.setText("");					//设置备注文本框为空
-						spInType.setSelection(0);				//设置类别下拉列表默认选择第一项
-					}
-				});
+			@Override
+			public void onClick(View arg0) {
+				//返回主页面
+				startActivity(new Intent(AddInAccount.this, MainActivity.class));
+			}
+		});
 
 		final Calendar c = Calendar.getInstance();				//获取当前系统日期
 		mYear = c.get(Calendar.YEAR);							//获取年份

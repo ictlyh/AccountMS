@@ -11,28 +11,28 @@
 			android:layout_weight="0.06">
 		<RelativeLayout android:layout_height="wrap_content" 
 			android:layout_width="match_parent">
-		<Button android:text="@string/expendinfo" 
-			android:id="@+id/btnoutinfo"
+		<Button android:id="@+id/btnoutinfo" 
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content"
 			android:textSize="20sp"
 			android:textColor="#8C6931"
+			android:text="@string/expendinfo"
 		/>
-		<Button android:text="@string/incomeinfo" 
-			android:id="@+id/btnininfo"
+		<Button android:id="@+id/btnininfo"			
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content"
 			android:layout_toRightOf="@id/btnoutinfo"
 			android:textSize="20sp"
 			android:textColor="#8C6931"
+			android:text="@string/incomeinfo"
 			/>
-		<Button android:text="@string/flaginfo" 
-			android:id="@+id/btnflaginfo"
+		<Button android:id="@+id/btnflaginfo"			
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content"
 			android:layout_toRightOf="@id/btnininfo"
 			android:textSize="20sp"
 			android:textColor="#8C6931"
+			android:text="@string/flaginfo"
 			/>
 		</RelativeLayout>
 		</LinearLayout>
@@ -40,11 +40,26 @@
 			android:layout_height="wrap_content" 
 			android:layout_width="match_parent"
 			android:orientation="vertical" 
-			android:layout_weight="0.94">
+			android:layout_weight="0.88">
 		<ListView android:id="@+id/lvinfo" 
 			android:layout_width="match_parent" 
 			android:layout_height="match_parent"
 			android:scrollbarAlwaysDrawVerticalTrack="true"
 			/>
-	</LinearLayout>
+		</LinearLayout>
+		<LinearLayout android:id="@+id/linearLayout3"
+			android:layout_height="wrap_content" 
+			android:layout_width="match_parent"
+			android:orientation="vertical" 
+			android:layout_weight="0.06">
+			<RelativeLayout android:layout_height="wrap_content" 
+				android:layout_width="match_parent">
+			    <Button android:id="@+id/btnreturn"			
+				android:layout_width="80dp" 
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:text="@string/back"
+				/>
+		    </RelativeLayout>
+		</LinearLayout>
 </LinearLayout>

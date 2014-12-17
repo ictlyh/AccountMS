@@ -30,18 +30,20 @@ public class ChangePwd extends Activity {
 
 	EditText txtpwd;					//创建EditText对象
 	EditText txtpwdconf;				//创建EditText对象
-	Button btnchpwd, btncancle;			//创建两个Button对象
-	
-	String userID = this.getIntent().getStringExtra("userID");
+	Button btnchpwd, btnreset, btncancle;//创建两个Button对象
+	String userID;						//保存Sysset传过来的id
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.changepwd);					//设置布局文件
-		txtpwd = (EditText) findViewById(R.id.txtChPwd);	//获取密码文本框
-		txtpwdconf = (EditText) findViewById(R.id.txtChPwdConf);//获取确认密码
-		btnchpwd = (Button) findViewById(R.id.btnConf);		//获取确定按钮
-		btncancle = (Button) findViewById(R.id.btnsetCancel);//获取取消按钮
+		setContentView(R.layout.changepwd);							//设置布局文件
+		
+		txtpwd = (EditText) findViewById(R.id.txtChPwd);			//获取密码文本框
+		txtpwdconf = (EditText) findViewById(R.id.txtChPwdConf);	//获取确认密码
+		btnchpwd = (Button) findViewById(R.id.btnChPwdConf);		//获取确定按钮
+		btnreset = (Button) findViewById(R.id.btnChPwdReset);		//获取重置按钮
+		btncancle = (Button) findViewById(R.id.btnChPwdCancel);		//获取取消按钮
+		userID = this.getIntent().getStringExtra("userID");			//获取userID
 
 		//为确定按钮添加监听事件
 		btnchpwd.setOnClickListener(new OnClickListener() {
@@ -53,25 +55,34 @@ public class ChangePwd extends Activity {
 					//根据输入的用户名和密码创建TablePassword对象
 					TablePassword tb_pwd = new TablePassword(userID, txtpwd.getText().toString());
 					pwdDAO.update(tb_pwd);
-					Toast.makeText(ChangePwd.this, "密码修改成功！", Toast.LENGTH_SHORT).show();
+					Toast.makeText(ChangePwd.this, "密码修改成功", Toast.LENGTH_SHORT).show();
 					Intent intent = new Intent(ChangePwd.this, MainActivity.class);	//创建Intent对象
 					startActivity(intent);
 				}
 				else {
-					Toast.makeText(ChangePwd.this, "密码不一致！", Toast.LENGTH_SHORT).show();
+					Toast.makeText(ChangePwd.this, "密码不一致", Toast.LENGTH_SHORT).show();
 				}
 				txtpwd.setText("");		//清空密码文本框
 				txtpwdconf.setText("");	//清空密码确认文本框
 			}
 		});
 
-		btncancle.setOnClickListener(new OnClickListener() {
+		//为重置按钮添加监听事件
+		btnreset.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				txtpwd.setText("");				//清空用户名文本框
 				txtpwd.setHint("请输入密码");	//为用户名文本框设置提示
-				txtpwdconf.setText("");					//清空密码文本框
-				txtpwdconf.setHint("请确认密码");		//为密码文本框设置提示
+				txtpwdconf.setText("");			//清空密码文本框
+				txtpwdconf.setHint("请确认密码");//为密码文本框设置提示
+			}
+		});
+		
+		//为取消按钮添加监听事件
+		btncancle.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				startActivity(new Intent(ChangePwd.this, MainActivity.class));
 			}
 		});
 	}

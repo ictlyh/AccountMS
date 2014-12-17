@@ -55,8 +55,8 @@ public class FlagManagement extends Activity {
 				tb_flag.setFlag(txtFlag.getText().toString());		//设置便签值
 				flagDAO.update(tb_flag);							//修改便签信息
 				//弹出信息提示
-				Toast.makeText(FlagManagement.this, "〖便签数据〗修改成功！",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(FlagManagement.this, "便签修改成功", Toast.LENGTH_SHORT).show();
+				FlagManagement.this.finish();
 			}
 		});
 
@@ -65,8 +65,8 @@ public class FlagManagement extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				flagDAO.detele(Integer.parseInt(strid));			//根据指定的id删除便签信息
-				Toast.makeText(FlagManagement.this, "〖便签数据〗删除成功！",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(FlagManagement.this, "便签删除成功", Toast.LENGTH_SHORT).show();
+				FlagManagement.this.finish();
 			}
 		});
 	}

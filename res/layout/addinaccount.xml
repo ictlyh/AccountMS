@@ -132,19 +132,25 @@
 		    android:layout_height="fill_parent"
 		    android:padding="10dp"
 		    >
-		<Button
+			<Button
 		    android:id="@+id/btnInCancel"
 		    android:layout_width="80dp"
 		    android:layout_height="wrap_content"
 		    android:layout_alignParentRight="true"
-		    android:layout_marginLeft="10dp"
 		    android:text="@string/cancle"
+		    />
+			<Button 
+			android:id="@+id/btnInReset"
+			android:layout_width="80dp"
+		    android:layout_height="wrap_content"
+			android:layout_toLeftOf="@id/btnInCancel"
+			android:text="@string/reset"    
 		    />
 		    <Button 
 			android:id="@+id/btnInSave"
 			android:layout_width="80dp"
 		    android:layout_height="wrap_content"
-			android:layout_toLeftOf="@id/btnInCancel"
+			android:layout_toLeftOf="@id/btnInReset"
 			android:text="@string/save"    
 		    />
 		</RelativeLayout>

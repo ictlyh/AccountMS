@@ -19,8 +19,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -33,12 +35,14 @@ public class OutAccountInfo extends Activity {
 	public static final String FLAG = "id";		//定义一个常量，用来作为请求码
 	ListView lvinfo;							//创建ListView对象
 	String strType = "";						//创建字符串，记录管理类型
+	Button btnreturn;							//关联返回按钮
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.outaccountinfo);//设置布局文件
 		lvinfo = (ListView) findViewById(R.id.lvoutaccountinfo);//获取布局文件中的ListView组件
+		btnreturn = (Button) findViewById(R.id.btnoutreturn);	//获取布局文件中的返回按钮
 
 		ShowInfo(R.id.btnoutinfo);//调用自定义方法显示支出信息
 
@@ -52,6 +56,14 @@ public class OutAccountInfo extends Activity {
 				Intent intent = new Intent(OutAccountInfo.this,InfoManagement.class);//创建Intent对象
 				intent.putExtra(FLAG, new String[] { strid, strType });			//设置传递数据
 				startActivity(intent);											//执行Intent操作
+			}
+		});
+		
+		//为返回按钮设置监听事件
+		btnreturn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				startActivity(new Intent(OutAccountInfo.this, MainActivity.class));
 			}
 		});
 	}

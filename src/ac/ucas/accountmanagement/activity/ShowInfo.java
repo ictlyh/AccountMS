@@ -38,6 +38,7 @@ public class ShowInfo extends Activity {
 	
 	public static final String FLAG = "id";		//定义一个常量，用来作为请求码
 	Button btnoutinfo, btnininfo, btnflaginfo;	//创建3个Button对象
+	Button btnreturn;							//关联返回按钮
 	ListView lvinfo;							//创建ListView对象
 	String strType = "";						//创建字符串，记录管理类型
 
@@ -50,32 +51,33 @@ public class ShowInfo extends Activity {
 		btnoutinfo = (Button) findViewById(R.id.btnoutinfo);	//获取布局文件中的支出信息按钮
 		btnininfo = (Button) findViewById(R.id.btnininfo);		//获取布局文件中的收入信息按钮
 		btnflaginfo = (Button) findViewById(R.id.btnflaginfo);	//获取布局文件中的便签信息按钮
+		btnreturn = (Button) findViewById(R.id.btnreturn);		//获取布局文件中的返回按钮
 
 		Showinfo(R.id.btnoutinfo);								//默认显示支出信息
 
 		//为支出信息按钮设置监听事件
 		btnoutinfo.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View arg0) {
-						Showinfo(R.id.btnoutinfo);				//显示支出信息
-					}
-				});
+			@Override
+			public void onClick(View arg0) {
+				Showinfo(R.id.btnoutinfo);				//显示支出信息
+			}
+		});
 
 		//为收入信息按钮设置监听事件
 		btnininfo.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View arg0) {
-						Showinfo(R.id.btnininfo);				//显示收入信息
-					}
-				});
+			@Override
+			public void onClick(View arg0) {
+				Showinfo(R.id.btnininfo);				//显示收入信息
+			}
+		});
 		
 		//为便签信息按钮设置监听事件
 		btnflaginfo.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View arg0) {
-						Showinfo(R.id.btnflaginfo);				//显示便签信息
-					}
-				});
+			@Override
+			public void onClick(View arg0) {
+				Showinfo(R.id.btnflaginfo);				//显示便签信息
+			}
+		});
 
 		//为ListView添加项单击事件
 		lvinfo.setOnItemClickListener(new OnItemClickListener() {
@@ -95,7 +97,15 @@ public class ShowInfo extends Activity {
 					intent = new Intent(ShowInfo.this, FlagManagement.class);	//使用FlagManagement窗口初始化Intent对象
 					intent.putExtra(FLAG, strid);								//设置要传递的数据
 				}
-				startActivity(intent);											//执行Intent，打开相应的Activity
+				startActivityForResult(intent, 0);								//执行Intent，打开相应的Activity
+			}
+		});
+		
+		//为返回按钮设置监听事件
+		btnreturn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				startActivity(new Intent(ShowInfo.this, MainActivity.class));
 			}
 		});
 	}

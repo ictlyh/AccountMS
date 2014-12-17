@@ -24,11 +24,26 @@
 			android:layout_height="wrap_content" 
 			android:layout_width="match_parent"
 			android:orientation="vertical" 
-			android:layout_weight="0.94">
+			android:layout_weight="0.88">
 		<ListView android:id="@+id/lvoutaccountinfo" 
 			android:layout_width="match_parent" 
 			android:layout_height="match_parent"
 			android:scrollbarAlwaysDrawVerticalTrack="true"
 			/>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/linearLayout3"
+			android:layout_height="wrap_content" 
+			android:layout_width="match_parent"
+			android:orientation="vertical" 
+			android:layout_weight="0.06">
+		<RelativeLayout android:layout_height="wrap_content" 
+			android:layout_width="match_parent">
+			<Button android:id="@+id/btnoutreturn"			
+				android:layout_width="80dp" 
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:text="@string/back"
+				/>
+		</RelativeLayout>
 	</LinearLayout>
 </LinearLayout>
