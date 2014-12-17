@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -42,6 +43,9 @@ public class InfoManagement extends BaseActivity {
 	Button btnEdit, btnDel;								//创建两个Button对象
 	String[] strInfos;									//定义字符串数组
 	String strid, strType;								//定义两个字符串变量，分别用来记录信息编号和管理类型
+	
+	// Create an ArrayAdapter using the string array and a default spinner layout
+	ArrayAdapter<CharSequence> adapter ;
 
 	private int mYear;									//年
 	private int mMonth;									//月
@@ -71,6 +75,12 @@ public class InfoManagement extends BaseActivity {
 		strType = strInfos[1];									//记录类型
 		//如果类型是btnoutinfo
 		if (strType.equals("btnoutinfo")) {
+			adapter = ArrayAdapter.createFromResource(this,
+			        R.array.outtype, android.R.layout.simple_spinner_item);
+			// Specify the layout to use when the list of choices appears
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			// Apply the adapter to the spinner
+			spType.setAdapter(adapter);
 			tvtitle.setText("支出管理");							//设置标题为“支出管理”
 			textView.setText("地  点：");							//设置“地点/付款方”标签文本为“地 点：”
 			//根据编号查找支出信息，并存储到TableOutAccount对象中
@@ -83,6 +93,12 @@ public class InfoManagement extends BaseActivity {
 		} 
 		//如果类型是btnininfo
 		else if (strType.equals("btnininfo")) {
+			adapter = ArrayAdapter.createFromResource(this,
+			        R.array.intype, android.R.layout.simple_spinner_item);
+			// Specify the layout to use when the list of choices appears
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			// Apply the adapter to the spinner
+			spType.setAdapter(adapter);
 			tvtitle.setText("收入管理");							//设置标题为“收入管理”
 			textView.setText("付款方：");						//设置“地点/付款方”标签文本为“付款方：”
 			//根据编号查找收入信息，并存储到TableInAccount对象中
