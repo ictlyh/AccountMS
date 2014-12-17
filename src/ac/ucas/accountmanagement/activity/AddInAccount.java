@@ -15,7 +15,6 @@
 package ac.ucas.accountmanagement.activity;
 
 import java.util.Calendar;
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -31,7 +30,7 @@ import ac.ucas.accountmanagement.dao.InAccountDAO;
 import ac.ucas.accountmanagement.model.TableInAccount;
 import ac.ucas.accountmanagementsystem.R;
 
-public class AddInAccount extends Activity {
+public class AddInAccount extends BaseActivity {
 	
 	protected static final int DATE_DIALOG_ID = 0;				//创建日期对话框常量
 	EditText txtInMoney, txtInTime, txtInHandler, txtInMark;	//创建4个EditText对象

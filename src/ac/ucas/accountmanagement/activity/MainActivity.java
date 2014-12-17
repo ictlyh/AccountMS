@@ -17,7 +17,6 @@ package ac.ucas.accountmanagement.activity;
 import java.util.ArrayList;
 import java.util.List;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +31,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import ac.ucas.accountmanagementsystem.R;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
 	GridView gvInfo;//创建GridView对象
 	//定义字符串数组，存储系统功能
@@ -96,8 +95,7 @@ public class MainActivity extends Activity {
 					startActivity(intent);//打开AccountFlag
 					break;
 				case 7:
-					//finish();//关闭当前Activity
-					System.exit(0);//退出APP
+					finishAll();//关闭所有Activity
 				}
 			}
 		});

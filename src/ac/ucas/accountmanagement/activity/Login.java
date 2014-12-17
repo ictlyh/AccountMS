@@ -14,7 +14,6 @@
 
 package ac.ucas.accountmanagement.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +25,7 @@ import ac.ucas.accountmanagement.dao.PwdDAO;
 import ac.ucas.accountmanagement.model.TablePassword;
 import ac.ucas.accountmanagementsystem.R;
 
-public class Login extends Activity {
+public class Login extends BaseActivity {
 	
 	EditText txtloginname, txtloginpwd;			//创建两个EditText对象
 	Button btnlogin, btnregist, btnclose;		//创建两个Button对象
@@ -77,14 +76,19 @@ public class Login extends Activity {
 				Intent intent = new Intent(Login.this, MainActivity.class);	//创建Intent对象
 				PwdDAO pwdDAO = new PwdDAO(Login.this);						//创建PwdDAO对象
 				
+				//判断用户名和密码是否为空
+				if(txtloginpwd.getText().toString().length() == 0 ||
+						txtloginname.getText().toString().length() == 0) {
+					Toast.makeText(Login.this, "用户名和密码不能为空", Toast.LENGTH_SHORT).show();
+				}
 				//判断是否有此用户名
 				if(pwdDAO.find(txtloginname.getText().toString()) != null) {
-					Toast.makeText(Login.this, "用户名已存在！", Toast.LENGTH_SHORT).show();
+					Toast.makeText(Login.this, "用户名已存在", Toast.LENGTH_SHORT).show();
 				}
 				//插入用户名和密码到数据库
 				else {
-					pwdDAO.add(new TablePassword(txtloginname.getText().toString(),
-							txtloginpwd.getText().toString()));
+					pwdDAO.add(new TablePassword(txtloginname.getText().toString(), txtloginpwd.getText().toString()));
+					Toast.makeText(Login.this, "注册成功", Toast.LENGTH_SHORT).show();
 					startActivity(intent);
 				}
 				txtloginname.setText("");	//清空用户名文本框
@@ -96,7 +100,7 @@ public class Login extends Activity {
 		btnclose.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				finish();//退出当前程序
+				finishAll();//退出当前程序
 			}
 		});
 	}

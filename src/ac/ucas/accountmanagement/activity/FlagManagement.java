@@ -14,7 +14,6 @@
 
 package ac.ucas.accountmanagement.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +25,7 @@ import ac.ucas.accountmanagement.dao.FlagDAO;
 import ac.ucas.accountmanagement.model.TableFlag;
 import ac.ucas.accountmanagementsystem.R;
 
-public class FlagManagement extends Activity {
+public class FlagManagement extends BaseActivity {
 
 	EditText txtFlag;					//创建EditText对象
 	Button btnEdit, btnDel;				//创建两个Button对象

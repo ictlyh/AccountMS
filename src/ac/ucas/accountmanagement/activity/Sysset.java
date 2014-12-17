@@ -14,7 +14,6 @@
 
 package ac.ucas.accountmanagement.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +24,7 @@ import android.widget.Toast;
 import ac.ucas.accountmanagement.dao.PwdDAO;
 import ac.ucas.accountmanagementsystem.R;
 
-public class Sysset extends Activity {
+public class Sysset extends BaseActivity {
 	
 	EditText txtuserid;					//创建EditText对象
 	EditText txtpwd;					//创建EditText对象

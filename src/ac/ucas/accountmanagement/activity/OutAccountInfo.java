@@ -15,7 +15,6 @@
 package ac.ucas.accountmanagement.activity;
 
 import java.util.List;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -30,7 +29,7 @@ import ac.ucas.accountmanagement.dao.OutAccountDAO;
 import ac.ucas.accountmanagement.model.TableOutAccount;
 import ac.ucas.accountmanagementsystem.R;
 
-public class OutAccountInfo extends Activity {
+public class OutAccountInfo extends BaseActivity {
 
 	public static final String FLAG = "id";		//定义一个常量，用来作为请求码
 	ListView lvinfo;							//创建ListView对象

@@ -14,7 +14,6 @@
 
 package ac.ucas.accountmanagement.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +25,7 @@ import ac.ucas.accountmanagement.dao.PwdDAO;
 import ac.ucas.accountmanagement.model.TablePassword;
 import ac.ucas.accountmanagementsystem.R;
 
-public class ChangePwd extends Activity {
+public class ChangePwd extends BaseActivity {
 
 	EditText txtpwd;					//创建EditText对象
 	EditText txtpwdconf;				//创建EditText对象
