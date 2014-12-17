@@ -82,7 +82,7 @@ public class Login extends BaseActivity {
 					Toast.makeText(Login.this, "用户名和密码不能为空", Toast.LENGTH_SHORT).show();
 				}
 				//判断是否有此用户名
-				if(pwdDAO.find(txtloginname.getText().toString()) != null) {
+				else if(pwdDAO.find(txtloginname.getText().toString()) != null) {
 					Toast.makeText(Login.this, "用户名已存在", Toast.LENGTH_SHORT).show();
 				}
 				//插入用户名和密码到数据库
