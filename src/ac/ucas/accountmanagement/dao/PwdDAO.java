@@ -38,6 +38,7 @@ public class PwdDAO {
 		// 执行添加密码操作
 		db.execSQL("insert into tb_pwd (_id,password) values (?,?)",
 				new Object[] { tb_pwd.getUserID(), tb_pwd.getPassword() });
+		db.close();
 	}
 
 	/**
@@ -49,6 +50,7 @@ public class PwdDAO {
 		//执行修改密码操作
 		db.execSQL("update tb_pwd set password = ? where _id = ?",
 				new Object[] { tb_pwd.getPassword(), tb_pwd.getUserID() });
+		db.close();
 	}
 
 	/**
@@ -59,6 +61,7 @@ public class PwdDAO {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
 		//查找密码并存储到Cursor类中
 		Cursor cursor = db.rawQuery("select _id,password from tb_pwd where _id = ?", new String[] { userID });
+		db.close();
 		//遍历查找到的密码信息
 		if (cursor.moveToNext()) {
 			// 将密码存储到TablePassword类中
@@ -76,6 +79,7 @@ public class PwdDAO {
 	public long getCount() {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
 		Cursor cursor = db.rawQuery("select count(password) from tb_pwd", null);//获取密码信息的记录数
+		db.close();
 		//判断Cursor中是否有数据
 		if (cursor.moveToNext()) {
 			return cursor.getLong(0);//返回总记录数

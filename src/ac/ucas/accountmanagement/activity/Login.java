@@ -39,7 +39,7 @@ public class Login extends BaseActivity {
 		txtloginpwd = (EditText) findViewById(R.id.txtLoginPwd);	//获取密码文本框
 		btnlogin = (Button) findViewById(R.id.btnLogin);			//获取登录按钮
 		btnregist = (Button) findViewById(R.id.btnRegist);			//获取注册按钮
-		btnclose = (Button) findViewById(R.id.btnClose);			//获取取消按钮
+		btnclose = (Button) findViewById(R.id.btnClose);			//获取退出按钮
 
 		//为登录按钮设置监听事件
 		btnlogin.setOnClickListener(new OnClickListener() {
@@ -98,7 +98,7 @@ public class Login extends BaseActivity {
 			}
 		});
 		
-		//为取消按钮设置监听事件
+		//为退出按钮设置监听事件
 		btnclose.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {

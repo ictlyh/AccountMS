@@ -33,7 +33,7 @@
 		android:layout_below="@id/txtLoginPwd"
 		android:layout_alignParentRight="true"
 		android:layout_marginLeft="10dp"
-		android:text="@string/cancle"
+		android:text="@string/logout"
 	/>
 	<Button android:id="@+id/btnRegist"
 		android:layout_width="90dp"

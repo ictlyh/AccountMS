@@ -44,6 +44,7 @@ public class OutAccountDAO {
 				tb_outaccount.getMoney(), tb_outaccount.getTime(),
 				tb_outaccount.getType(), tb_outaccount.getAddress(),
 				tb_outaccount.getMark() });
+		db.close();
 	}
 
 	/**
@@ -60,6 +61,7 @@ public class OutAccountDAO {
 						tb_outaccount.getType(), tb_outaccount.getAddress(),
 						tb_outaccount.getMark(), tb_outaccount.get_userID(),
 						tb_outaccount.get_id() });
+		db.close();
 	}
 
 	/**
@@ -71,6 +73,7 @@ public class OutAccountDAO {
 		db = helper.getWritableDatabase();//初始化SQLiteDatabase对象
 		Cursor cursor = db.rawQuery("select userID,_id,money,time,type,address,mark from tb_outaccount where userID = ? and _id = ?",
 						new String[] { userId, String.valueOf(id) });//根据编号查找支出信息，并存储到Cursor类中
+		db.close();
 		//遍历查找到的支出信息
 		if (cursor.moveToNext()) {
 			//将遍历到的支出信息存储到Tb_outaccount类中
@@ -95,6 +98,7 @@ public class OutAccountDAO {
 		//执行删除支出信息操作
 		db.execSQL("delete from tb_outaccount where userID = ? and _id = ?",
 				new String [] {userId, String.valueOf(id)} );
+		db.close();
 	}
 
 	/**
@@ -107,8 +111,9 @@ public class OutAccountDAO {
 		List<TableOutAccount> tb_outaccount = new ArrayList<TableOutAccount>();//创建集合对象
 		db = helper.getWritableDatabase();//初始化SQLiteDatabase对象
 		//获取所有支出信息
-		Cursor cursor = db.rawQuery("select * from tb_outaccount where userID = ? and limit ?,?",
+		Cursor cursor = db.rawQuery("select * from tb_outaccount where userID = ?  order by _id  limit ?,?",
 				new String[] { userId, String.valueOf(start), String.valueOf(count) });
+		db.close();
 		//遍历所有的支出信息
 		while (cursor.moveToNext()) {
 			//将遍历到的支出信息添加到集合中
@@ -132,6 +137,7 @@ public class OutAccountDAO {
 		db = helper.getWritableDatabase();//初始化SQLiteDatabase对象
 		Cursor cursor = db.rawQuery("select count(_id) from tb_outaccount where userID = ?",
 				new String [] { userId });//获取支出信息的记录数
+		db.close();
 		//判断Cursor中是否有数据
 		if (cursor.moveToNext()) {
 			return cursor.getLong(0);//返回总记录数
@@ -147,6 +153,7 @@ public class OutAccountDAO {
 		db = helper.getWritableDatabase();//初始化SQLiteDatabase对象
 		Cursor cursor = db.rawQuery("select max(_id) from tb_outaccount where userID = ?",
 				new String [] { userId });// 获取支出信息表中的最大编号
+		db.close();
 		while (cursor.moveToLast()) {//访问Cursor中的最后一条数据
 			return cursor.getInt(0);//获取访问到的数据，即最大编号
 		}
