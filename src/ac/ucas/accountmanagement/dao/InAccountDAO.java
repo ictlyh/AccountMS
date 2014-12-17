@@ -45,7 +45,7 @@ public class InAccountDAO {
 						tb_inaccount.getMoney(), tb_inaccount.getTime(),
 						tb_inaccount.getType(), tb_inaccount.getHandler(),
 						tb_inaccount.getMark() });
-		db.close();
+		//db.close();
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class InAccountDAO {
 						tb_inaccount.getType(), tb_inaccount.getHandler(),
 						tb_inaccount.getMark(), tb_inaccount.get_userID(),
 						tb_inaccount.get_id() });
-		db.close();
+		//db.close();
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class InAccountDAO {
 				.rawQuery(
 						"select userID,_id,money,time,type,handler,mark from tb_inaccount where userID = ? and _id = ?",
 						new String[] { userId, String.valueOf(id) });// 根据编号查找收入信息，并存储到Cursor类中
-		db.close();
+		//db.close();
 		// 遍历查找到的收入信息
 		if (cursor.moveToNext()) {
 			// 将遍历到的收入信息存储到Tb_inaccount类中
@@ -100,7 +100,7 @@ public class InAccountDAO {
 		// 执行删除收入信息操作
 		db.execSQL("delete from tb_inaccount where userID = ? and _id = ?",
 				new String [] {userId, String.valueOf(id) });
-		db.close();
+		//db.close();
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class InAccountDAO {
 					cursor.getString(cursor.getColumnIndex("handler")),
 					cursor.getString(cursor.getColumnIndex("mark"))));
 		}
-		db.close();
+		//db.close();
 		return tb_inaccount;// 返回集合
 	}
 
@@ -139,7 +139,7 @@ public class InAccountDAO {
 		db = helper.getWritableDatabase();	// 初始化SQLiteDatabase对象
 		Cursor cursor = db.rawQuery("select count(_id) from tb_inaccount where userID = ?",
 				new String [] { userId });// 获取收入信息的记录数
-		db.close();
+		//db.close();
 		// 判断Cursor中是否有数据
 		if (cursor.moveToNext()) {
 			return cursor.getLong(0);// 返回总记录数
@@ -155,7 +155,7 @@ public class InAccountDAO {
 		db = helper.getWritableDatabase();	// 初始化SQLiteDatabase对象
 		Cursor cursor = db.rawQuery("select max(_id) from tb_inaccount where userID = ?",
 				new String [] {userId });// 获取收入信息表中的最大编号
-		db.close();
+		//db.close();
 		// 访问Cursor中的最后一条数据
 		while (cursor.moveToLast()) {
 			return cursor.getInt(0);// 获取访问到的数据，即最大编号

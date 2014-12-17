@@ -39,7 +39,7 @@ public class FlagDAO {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
 		db.execSQL("insert into tb_flag (userID,_id,flag) values (?,?,?)",
 				new Object[] { tb_flag.get_userID(), tb_flag.get_id(), tb_flag.getFlag() });//执行添加便签信息操作
-		db.close();
+		//db.close();
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class FlagDAO {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
 		db.execSQL("update tb_flag set flag = ? where userID = ? and _id = ?",
 				new Object[] { tb_flag.getFlag(), tb_flag.get_userID(), tb_flag.get_id() });//执行修改便签信息操作
-		db.close();
+		//db.close();
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class FlagDAO {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
 		Cursor cursor = db.rawQuery("select userID,_id,flag from tb_flag where userID = ? and_id = ?",
 				new String[] { userId, String.valueOf(id) });//根据编号查找便签信息，并存储到Cursor类中
-		db.close();
+		//db.close();
 		//遍历查找到的便签信息
 		if (cursor.moveToNext()) {
 			//将遍历到的便签信息存储到Tb_flag类中
@@ -83,7 +83,7 @@ public class FlagDAO {
 		//执行删除便签信息操作
 		db.execSQL("delete from tb_flag where userID = ? and _id = ?",
 				new String [] {userId, String.valueOf(id) });
-		db.close();
+		//db.close();
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class FlagDAO {
 					cursor.getInt(cursor.getColumnIndex("_id")),
 					cursor.getString(cursor.getColumnIndex("flag"))));
 		}
-		db.close();
+		//db.close();
 		return lisTb_flags;//返回集合
 	}
 
@@ -118,7 +118,7 @@ public class FlagDAO {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
 		Cursor cursor = db.rawQuery("select count(_id) from tb_flag where userID = ?",
 				new String [] { userId });//获取便签信息的记录数
-		db.close();
+		//db.close();
 		//判断Cursor中是否有数据
 		if (cursor.moveToNext()) {
 			return cursor.getLong(0);//返回总记录数
@@ -134,7 +134,7 @@ public class FlagDAO {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
 		Cursor cursor = db.rawQuery("select max(_id) from tb_flag where userID = ?",
 				new String [] { userId });//获取便签信息表中的最大编号
-		db.close();
+		//db.close();
 		//访问Cursor中的最后一条数据
 		while (cursor.moveToLast()) {
 			return cursor.getInt(0);//获取访问到的数据，即最大编号
