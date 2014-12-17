@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
 	GridView gvInfo;//创建GridView对象
 	//定义字符串数组，存储系统功能
 	String[] titles = new String[] { "新增支出", "新增收入", "我的支出",
-			"我的收入", "数据管理","更改密码", "收支便签", "退出" };
+			"我的收入", "数据管理","更改密码", "新增便签", "退出" };
 	//定义int数组，存储功能对应的图标
 	int[] images = new int[] { R.drawable.addoutaccount, R.drawable.addinaccount,
 			R.drawable.outaccountinfo, R.drawable.inaccountinfo,
@@ -96,7 +96,8 @@ public class MainActivity extends Activity {
 					startActivity(intent);//打开AccountFlag
 					break;
 				case 7:
-					finish();//关闭当前Activity
+					//finish();//关闭当前Activity
+					System.exit(0);//退出APP
 				}
 			}
 		});
