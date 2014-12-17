@@ -16,6 +16,7 @@ package ac.ucas.accountmanagement.model;
 
 public class TableOutAccount {
 	
+	private String userID;
 	private int _id;		//存储支出编号
 	private double money;	//存储支出金额
 	private String time;	//存储支出时间
@@ -29,9 +30,10 @@ public class TableOutAccount {
 	}
 
 	//定义有参构造函数，用来初始化支出信息实体类中的各个字段
-	public TableOutAccount(int _id, double money, String time, String type,
+	public TableOutAccount(String userID, int _id, double money, String time, String type,
 			String address, String mark) {
 		super();
+		this.userID = userID;
 		this._id = _id;		//为支出编号赋值
 		this.money = money;	//为支出金额赋值
 		this.time = time;	//为支出时间赋值
@@ -40,6 +42,14 @@ public class TableOutAccount {
 		this.mark = mark;	//为支出备注赋值
 	}
 
+	public String get_userID() {
+		return userID;
+	}
+	
+	public void set_userID(String userID) {
+		this.userID = userID;
+	}
+	
 	//获取支出ID
 	public int get_id() {
 		return _id;

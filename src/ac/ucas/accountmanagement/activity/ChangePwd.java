@@ -30,7 +30,7 @@ public class ChangePwd extends BaseActivity {
 	EditText txtpwd;					//创建EditText对象
 	EditText txtpwdconf;				//创建EditText对象
 	Button btnchpwd, btnreset, btncancle;//创建两个Button对象
-	String userID;						//保存Sysset传过来的id
+	String userID;						//保存参数userid
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,7 @@ public class ChangePwd extends BaseActivity {
 					pwdDAO.update(tb_pwd);
 					Toast.makeText(ChangePwd.this, "密码修改成功", Toast.LENGTH_SHORT).show();
 					Intent intent = new Intent(ChangePwd.this, MainActivity.class);	//创建Intent对象
+					intent.putExtra("userID", userID);
 					startActivity(intent);
 				}
 				else {
@@ -81,7 +82,9 @@ public class ChangePwd extends BaseActivity {
 		btncancle.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(ChangePwd.this, MainActivity.class));
+				Intent intent = new Intent(ChangePwd.this, MainActivity.class);	//创建Intent对象
+				intent.putExtra("userID", userID);
+				startActivity(intent);
 			}
 		});
 	}

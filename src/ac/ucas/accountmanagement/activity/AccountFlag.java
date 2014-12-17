@@ -31,6 +31,7 @@ public class AccountFlag extends BaseActivity {
 	Button btnflagSaveButton;	//创建Button组件对象
 	Button btnflagResetButton;	//创建Button组件对象
 	Button btnflagCancleButton;	//创建Button组件对象
+	String userID;				//保存参数userid
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class AccountFlag extends BaseActivity {
 		btnflagSaveButton = (Button) findViewById(R.id.btnflagSave);		//获取保存按钮
 		btnflagResetButton = (Button) findViewById(R.id.btnflagReset);		//获取重置按钮
 		btnflagCancleButton = (Button) findViewById(R.id.btnflagCancle);	//获取取消按钮
+		userID = this.getIntent().getStringExtra("userID");					//获取userID
 		
 		//为保存按钮设置监听事件
 		btnflagSaveButton.setOnClickListener(new OnClickListener() {
@@ -49,12 +51,14 @@ public class AccountFlag extends BaseActivity {
 				String strFlag = txtFlag.getText().toString();		//获取便签文本框的值
 				if (!strFlag.isEmpty()) {							//判断获取的值不为空
 					FlagDAO flagDAO = new FlagDAO(AccountFlag.this);//创建FlagDAO对象
-					TableFlag tb_flag = new TableFlag(flagDAO.getMaxId() + 1, strFlag);//创建TableFlag对象
+					TableFlag tb_flag = new TableFlag(userID, flagDAO.getMaxId(userID) + 1, strFlag);//创建TableFlag对象
 					flagDAO.add(tb_flag);							//添加便签信息
 					// 弹出信息提示
 					Toast.makeText(AccountFlag.this, "便签添加成功", Toast.LENGTH_SHORT).show();
 					//跳转到主页面
-					startActivity(new Intent(AccountFlag.this, MainActivity.class));
+					Intent intent = new Intent(AccountFlag.this, MainActivity.class);
+					intent.putExtra("userID", userID);
+					startActivity(intent);
 				} else {
 					Toast.makeText(AccountFlag.this, "请输入便签内容", Toast.LENGTH_SHORT).show();
 				}
@@ -75,7 +79,9 @@ public class AccountFlag extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				//返回主页面
-				startActivity(new Intent(AccountFlag.this, MainActivity.class));
+				Intent intent = new Intent(AccountFlag.this, MainActivity.class);
+				intent.putExtra("userID", userID);
+				startActivity(intent);
 			}
 		});
 	}

@@ -39,10 +39,12 @@ public class InAccountDAO {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
 		// 执行添加收入信息操作
 		db.execSQL(
-				"insert into tb_inaccount (_id,money,time,type,handler,mark) values (?,?,?,?,?,?)",
-				new Object[] { tb_inaccount.get_id(), tb_inaccount.getMoney(),
-						tb_inaccount.getTime(), tb_inaccount.getType(),
-						tb_inaccount.getHandler(), tb_inaccount.getMark() });
+				"insert into tb_inaccount (userID,_id,money,time,type,handler,mark) values (?,?,?,?,?,?,?)",
+				new Object[] {
+						tb_inaccount.get_userID(), tb_inaccount.get_id(),
+						tb_inaccount.getMoney(), tb_inaccount.getTime(),
+						tb_inaccount.getType(), tb_inaccount.getHandler(),
+						tb_inaccount.getMark() });
 	}
 
 	/**
@@ -53,10 +55,11 @@ public class InAccountDAO {
 		db = helper.getWritableDatabase();	// 初始化SQLiteDatabase对象
 		// 执行修改收入信息操作
 		db.execSQL(
-				"update tb_inaccount set money = ?,time = ?,type = ?,handler = ?,mark = ? where _id = ?",
+				"update tb_inaccount set money = ?,time = ?,type = ?,handler = ?,mark = ? where userID = ? and _id = ?",
 				new Object[] { tb_inaccount.getMoney(), tb_inaccount.getTime(),
 						tb_inaccount.getType(), tb_inaccount.getHandler(),
-						tb_inaccount.getMark(), tb_inaccount.get_id() });
+						tb_inaccount.getMark(), tb_inaccount.get_userID(),
+						tb_inaccount.get_id() });
 	}
 
 	/**
@@ -64,16 +67,17 @@ public class InAccountDAO {
 	 * @param id
 	 * @return
 	 */
-	public TableInAccount find(int id) {
+	public TableInAccount find(String userId, int id) {
 		db = helper.getWritableDatabase();	// 初始化SQLiteDatabase对象
 		Cursor cursor = db
 				.rawQuery(
-						"select _id,money,time,type,handler,mark from tb_inaccount where _id = ?",
-						new String[] { String.valueOf(id) });// 根据编号查找收入信息，并存储到Cursor类中
+						"select userID,_id,money,time,type,handler,mark from tb_inaccount where userID = ? and _id = ?",
+						new String[] { userId, String.valueOf(id) });// 根据编号查找收入信息，并存储到Cursor类中
 		// 遍历查找到的收入信息
 		if (cursor.moveToNext()) {
 			// 将遍历到的收入信息存储到Tb_inaccount类中
 			return new TableInAccount(
+					cursor.getString(cursor.getColumnIndex("userID")),
 					cursor.getInt(cursor.getColumnIndex("_id")),
 					cursor.getDouble(cursor.getColumnIndex("money")),
 					cursor.getString(cursor.getColumnIndex("time")),
@@ -88,20 +92,11 @@ public class InAccountDAO {
 	 * 刪除收入信息
 	 * @param ids
 	 */
-	public void detele(Integer... ids) {
-		// 判断是否存在要删除的id
-		if (ids.length > 0) {
-			StringBuffer sb = new StringBuffer();	// 创建StringBuffer对象
-			// 遍历要删除的id集合
-			for (int i = 0; i < ids.length; i++) {
-				sb.append('?').append(',');			// 将删除条件添加到StringBuffer对象中
-			}
-			sb.deleteCharAt(sb.length() - 1);		// 去掉最后一个“,“字符
-			db = helper.getWritableDatabase();		// 初始化SQLiteDatabase对象
-			// 执行删除收入信息操作
-			db.execSQL("delete from tb_inaccount where _id in (" + sb + ")",
-					(Object[]) ids);
-		}
+	public void detele(String userId, Integer id) {
+		db = helper.getWritableDatabase();		// 初始化SQLiteDatabase对象
+		// 执行删除收入信息操作
+		db.execSQL("delete from tb_inaccount where userID = ? and _id = ?",
+				new String [] {userId, String.valueOf(id) });
 	}
 
 	/**
@@ -110,22 +105,23 @@ public class InAccountDAO {
 	 * @param count 每页显示数量
 	 * @return
 	 */
-	public List<TableInAccount> getScrollData(int start, int count) {
+	public List<TableInAccount> getScrollData(String userId, int start, int count) {
 		List<TableInAccount> tb_inaccount = new ArrayList<TableInAccount>();// 创建集合对象
 		db = helper.getWritableDatabase();	// 初始化SQLiteDatabase对象
 		// 获取所有收入信息
-		Cursor cursor = db.rawQuery("select * from tb_inaccount limit ?,?",
-				new String[] { String.valueOf(start), String.valueOf(count) });
+		Cursor cursor = db.rawQuery("select * from tb_inaccount where userID = and limit ?,?",
+				new String[] { userId, String.valueOf(start), String.valueOf(count) });
 		// 遍历所有的收入信息
 		while (cursor.moveToNext()) {
 			// 将遍历到的收入信息添加到集合中
-			tb_inaccount.add(new TableInAccount(cursor.getInt(cursor
-					.getColumnIndex("_id")), cursor.getDouble(cursor
-					.getColumnIndex("money")), cursor.getString(cursor
-					.getColumnIndex("time")), cursor.getString(cursor
-					.getColumnIndex("type")), cursor.getString(cursor
-					.getColumnIndex("handler")), cursor.getString(cursor
-					.getColumnIndex("mark"))));
+			tb_inaccount.add(new TableInAccount(
+					cursor.getString(cursor.getColumnIndex("userID")),
+					cursor.getInt(cursor.getColumnIndex("_id")),
+					cursor.getDouble(cursor.getColumnIndex("money")),
+					cursor.getString(cursor.getColumnIndex("time")),
+					cursor.getString(cursor.getColumnIndex("type")),
+					cursor.getString(cursor.getColumnIndex("handler")),
+					cursor.getString(cursor.getColumnIndex("mark"))));
 		}
 		return tb_inaccount;// 返回集合
 	}
@@ -134,10 +130,10 @@ public class InAccountDAO {
 	 * 获取总记录数
 	 * @return
 	 */
-	public long getCount() {
+	public long getCount(String userId) {
 		db = helper.getWritableDatabase();	// 初始化SQLiteDatabase对象
-		Cursor cursor = db
-				.rawQuery("select count(_id) from tb_inaccount", null);// 获取收入信息的记录数
+		Cursor cursor = db.rawQuery("select count(_id) from tb_inaccount where userID = ?",
+				new String [] { userId });// 获取收入信息的记录数
 		// 判断Cursor中是否有数据
 		if (cursor.moveToNext()) {
 			return cursor.getLong(0);// 返回总记录数
@@ -149,9 +145,10 @@ public class InAccountDAO {
 	 * 获取收入最大编号
 	 * @return
 	 */
-	public int getMaxId() {
+	public int getMaxId(String userId) {
 		db = helper.getWritableDatabase();	// 初始化SQLiteDatabase对象
-		Cursor cursor = db.rawQuery("select max(_id) from tb_inaccount", null);// 获取收入信息表中的最大编号
+		Cursor cursor = db.rawQuery("select max(_id) from tb_inaccount where userID = ?",
+				new String [] {userId });// 获取收入信息表中的最大编号
 		// 访问Cursor中的最后一条数据
 		while (cursor.moveToLast()) {
 			return cursor.getInt(0);// 获取访问到的数据，即最大编号

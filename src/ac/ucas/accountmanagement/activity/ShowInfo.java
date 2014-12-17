@@ -40,6 +40,7 @@ public class ShowInfo extends BaseActivity {
 	Button btnreturn;							//关联返回按钮
 	ListView lvinfo;							//创建ListView对象
 	String strType = "";						//创建字符串，记录管理类型
+	String userID;								//保存参数userid
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class ShowInfo extends BaseActivity {
 		btnininfo = (Button) findViewById(R.id.btnininfo);		//获取布局文件中的收入信息按钮
 		btnflaginfo = (Button) findViewById(R.id.btnflaginfo);	//获取布局文件中的便签信息按钮
 		btnreturn = (Button) findViewById(R.id.btnreturn);		//获取布局文件中的返回按钮
+		userID = this.getIntent().getStringExtra("userID");		//获取userID
 
 		Showinfo(R.id.btnoutinfo);								//默认显示支出信息
 
@@ -96,6 +98,7 @@ public class ShowInfo extends BaseActivity {
 					intent = new Intent(ShowInfo.this, FlagManagement.class);	//使用FlagManagement窗口初始化Intent对象
 					intent.putExtra(FLAG, strid);								//设置要传递的数据
 				}
+				intent.putExtra("userID", userID);
 				startActivityForResult(intent, 0);								//执行Intent，打开相应的Activity
 			}
 		});
@@ -104,7 +107,9 @@ public class ShowInfo extends BaseActivity {
 		btnreturn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(ShowInfo.this, MainActivity.class));
+				Intent intent = new Intent(ShowInfo.this, MainActivity.class);
+				intent.putExtra("userID", userID);
+				startActivity(intent);
 			}
 		});
 	}
@@ -120,7 +125,7 @@ public class ShowInfo extends BaseActivity {
 			strType = "btnoutinfo";						//为strType变量赋值
 			OutAccountDAO outaccountinfo = new OutAccountDAO(ShowInfo.this);//创建OutAccountDAO对象
 			//获取所有支出信息，并存储到List泛型集合中
-			List<TableOutAccount> listoutinfos = outaccountinfo.getScrollData(0, (int) outaccountinfo.getCount());
+			List<TableOutAccount> listoutinfos = outaccountinfo.getScrollData(userID, 0, (int) outaccountinfo.getCount(userID));
 			strInfos = new String[listoutinfos.size()];	//设置字符串数组的长度
 			int i = 0;									//定义一个开始标识
 			//遍历List泛型集合
@@ -136,7 +141,7 @@ public class ShowInfo extends BaseActivity {
 			strType = "btnininfo";						//为strType变量赋值
 			InAccountDAO inaccountinfo = new InAccountDAO(ShowInfo.this);// 创建InAccountDAO对象
 			//获取所有收入信息，并存储到List泛型集合中
-			List<TableInAccount> listinfos = inaccountinfo.getScrollData(0, (int) inaccountinfo.getCount());
+			List<TableInAccount> listinfos = inaccountinfo.getScrollData(userID, 0, (int) inaccountinfo.getCount(userID));
 			strInfos = new String[listinfos.size()];	//设置字符串数组的长度
 			int m = 0;									//定义一个开始标识
 			//遍历List泛型集合
@@ -152,7 +157,7 @@ public class ShowInfo extends BaseActivity {
 			strType = "btnflaginfo";					//为strType变量赋值
 			FlagDAO flaginfo = new FlagDAO(ShowInfo.this);// 创建FlagDAO对象
 			//获取所有便签信息，并存储到List泛型集合中
-			List<TableFlag> listFlags = flaginfo.getScrollData(0, (int) flaginfo.getCount());
+			List<TableFlag> listFlags = flaginfo.getScrollData(userID, 0, (int) flaginfo.getCount(userID));
 			strInfos = new String[listFlags.size()];	//设置字符串数组的长度
 			int n = 0;									//定义一个开始标识
 			//遍历List泛型集合

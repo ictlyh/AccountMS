@@ -15,7 +15,7 @@
 package ac.ucas.accountmanagement.model;
 
 public class TableFlag {
-	
+	private String userID;	//
 	private int _id;		// 存储便签编号
 	private String flag;	// 存储便签信息
 	
@@ -25,10 +25,21 @@ public class TableFlag {
 	}
 
 	//定义有参构造函数，用来初始化便签信息实体类中的各个字段
-	public TableFlag(int _id, String flag) {
+	public TableFlag(String userID, int _id, String flag) {
 		super();
+		this.userID = userID;
 		this._id = _id;		// 为便签号赋值
 		this.flag = flag;	// 为便签信息赋值
+	}
+	
+	//获取userID
+	public String get_userID() {
+		return userID;
+	}
+
+	//设置userID
+	public void set_userID(String userID) {
+		this.userID = userID;
 	}
 
 	//获取便签ID

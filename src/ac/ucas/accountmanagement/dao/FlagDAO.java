@@ -37,8 +37,8 @@ public class FlagDAO {
 	 */
 	public void add(TableFlag tb_flag) {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
-		db.execSQL("insert into tb_flag (_id,flag) values (?,?)", new Object[] {
-				tb_flag.get_id(), tb_flag.getFlag() });//执行添加便签信息操作
+		db.execSQL("insert into tb_flag (userID,_id,flag) values (?,?,?)",
+				new Object[] { tb_flag.get_userID(), tb_flag.get_id(), tb_flag.getFlag() });//执行添加便签信息操作
 	}
 
 	/**
@@ -47,8 +47,8 @@ public class FlagDAO {
 	 */
 	public void update(TableFlag tb_flag) {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
-		db.execSQL("update tb_flag set flag = ? where _id = ?", new Object[] {
-				tb_flag.getFlag(), tb_flag.get_id() });//执行修改便签信息操作
+		db.execSQL("update tb_flag set flag = ? where userID = ? and _id = ?",
+				new Object[] { tb_flag.getFlag(), tb_flag.get_userID(), tb_flag.get_id() });//执行修改便签信息操作
 	}
 
 	/**
@@ -56,15 +56,16 @@ public class FlagDAO {
 	 * @param id
 	 * @return
 	 */
-	public TableFlag find(int id) {
+	public TableFlag find(String userId, int id) {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
-		Cursor cursor = db.rawQuery(
-				"select _id,flag from tb_flag where _id = ?",
-				new String[] { String.valueOf(id) });//根据编号查找便签信息，并存储到Cursor类中
+		Cursor cursor = db.rawQuery("select userID,_id,flag from tb_flag where userID = ? and_id = ?",
+				new String[] { userId, String.valueOf(id) });//根据编号查找便签信息，并存储到Cursor类中
 		//遍历查找到的便签信息
 		if (cursor.moveToNext()) {
 			//将遍历到的便签信息存储到Tb_flag类中
-			return new TableFlag(cursor.getInt(cursor.getColumnIndex("_id")),
+			return new TableFlag(
+					cursor.getString(cursor.getColumnIndex("userID")),
+					cursor.getColumnIndex("_id"),
 					cursor.getString(cursor.getColumnIndex("flag")));
 		}
 		return null;//如果没有信息，则返回null
@@ -74,21 +75,11 @@ public class FlagDAO {
 	 * 刪除便签信息
 	 * @param ids
 	 */
-	public void detele(Integer... ids) {
-		//判断是否存在要删除的id
-		if (ids.length > 0)
-		{
-			StringBuffer sb = new StringBuffer();	//创建StringBuffer对象
-			//遍历要删除的id集合
-			for (int i = 0; i < ids.length; i++) {
-				sb.append('?').append(',');			//将删除条件添加到StringBuffer对象中
-			}
-			sb.deleteCharAt(sb.length() - 1);		//去掉最后一个“,“字符
-			db = helper.getWritableDatabase();		//创建SQLiteDatabase对象
-			//执行删除便签信息操作
-			db.execSQL("delete from tb_flag where _id in (" + sb + ")",
-					(Object[]) ids);
-		}
+	public void detele(String userId, Integer id) {
+		db = helper.getWritableDatabase();		//创建SQLiteDatabase对象
+		//执行删除便签信息操作
+		db.execSQL("delete from tb_flag where userID = ? and _id = ?",
+				new String [] {userId, String.valueOf(id) });
 	}
 
 	/**
@@ -97,18 +88,19 @@ public class FlagDAO {
 	 * @param count 每页显示数量
 	 * @return
 	 */
-	public List<TableFlag> getScrollData(int start, int count) {
+	public List<TableFlag> getScrollData(String userId, int start, int count) {
 		List<TableFlag> lisTb_flags = new ArrayList<TableFlag>();//创建集合对象
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
 		//获取所有便签信息
-		Cursor cursor = db.rawQuery("select * from tb_flag limit ?,?",
-				new String[] { String.valueOf(start), String.valueOf(count) });
+		Cursor cursor = db.rawQuery("select * from tb_flag where userID = ? and limit ?,?",
+				new String[] { userId, String.valueOf(start), String.valueOf(count) });
 		//遍历所有的便签信息
 		while (cursor.moveToNext()) {
 			//将遍历到的便签信息添加到集合中
-			lisTb_flags.add(new TableFlag(cursor.getInt(cursor
-					.getColumnIndex("_id")), cursor.getString(cursor
-					.getColumnIndex("flag"))));
+			lisTb_flags.add(new TableFlag(
+					cursor.getString(cursor.getColumnIndex("userID")),
+					cursor.getInt(cursor.getColumnIndex("_id")),
+					cursor.getString(cursor.getColumnIndex("flag"))));
 		}
 		return lisTb_flags;//返回集合
 	}
@@ -117,9 +109,10 @@ public class FlagDAO {
 	 * 获取总记录数
 	 * @return
 	 */
-	public long getCount() {
+	public long getCount(String userId) {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
-		Cursor cursor = db.rawQuery("select count(_id) from tb_flag", null);//获取便签信息的记录数
+		Cursor cursor = db.rawQuery("select count(_id) from tb_flag where userID = ?",
+				new String [] { userId });//获取便签信息的记录数
 		//判断Cursor中是否有数据
 		if (cursor.moveToNext()) {
 			return cursor.getLong(0);//返回总记录数
@@ -131,9 +124,10 @@ public class FlagDAO {
 	 * 获取便签最大编号
 	 * @return
 	 */
-	public int getMaxId() {
+	public int getMaxId(String userId) {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
-		Cursor cursor = db.rawQuery("select max(_id) from tb_flag", null);//获取便签信息表中的最大编号
+		Cursor cursor = db.rawQuery("select max(_id) from tb_flag where userID = ?",
+				new String [] { userId });//获取便签信息表中的最大编号
 		//访问Cursor中的最后一条数据
 		while (cursor.moveToLast()) {
 			return cursor.getInt(0);//获取访问到的数据，即最大编号

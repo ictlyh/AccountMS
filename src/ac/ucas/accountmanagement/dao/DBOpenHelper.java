@@ -32,12 +32,15 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db){
 	
-		db.execSQL("create table tb_outaccount (_id integer primary key,money decimal,time varchar(10),"
-				+ "type varchar(10),address varchar(100),mark varchar(200))");// 创建支出信息表
-		db.execSQL("create table tb_inaccount (_id integer primary key,money decimal,time varchar(10),"
-				+ "type varchar(10),handler varchar(100),mark varchar(200))");// 创建收入信息表
+		db.execSQL("create table tb_outaccount (userID varchar(20), _id integer, money decimal, time varchar(10),"
+				+ "type varchar(10), address varchar(100), mark varchar(200),"
+				+ "primary key(userID, _id))");// 创建支出信息表
+		db.execSQL("create table tb_inaccount (userID varchar(20), _id integer, money decimal, time varchar(10),"
+				+ "type varchar(10),handler varchar(100),mark varchar(200),"
+				+ "primary key(userID, _id))");// 创建收入信息表
 		db.execSQL("create table tb_pwd (_id varchar(20) primary key,password varchar(20))");// 创建密码表
-		db.execSQL("create table tb_flag (_id integer primary key,flag varchar(200))");// 创建便签信息表
+		db.execSQL("create table tb_flag (userID varchar(20), _id integer, flag varchar(200),"
+				+ "primary key(userID, _id))");// 创建便签信息表
 	}
 
 	// 覆写基类的onUpgrade方法，以便数据库版本更新

@@ -35,6 +35,7 @@ public class InAccountInfo extends BaseActivity {
 	ListView lvinfo;								//创建ListView对象
 	String strType = "";							//创建字符串，记录管理类型
 	Button btnreturn;								//关联返回按钮
+	String userID;									//保存参数userid
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +43,12 @@ public class InAccountInfo extends BaseActivity {
 		setContentView(R.layout.inaccountinfo);						//设置布局文件
 		lvinfo = (ListView) findViewById(R.id.lvinaccountinfo);		//获取布局文件中的ListView组件
 		btnreturn = (Button) findViewById(R.id.btninreturn);		//获取布局文件中的返回按钮
+		userID = this.getIntent().getStringExtra("userID");			//获取userID
+		
 		ShowInfo(R.id.btnininfo);									//调用自定义方法显示收入信息
-		lvinfo.setOnItemClickListener(new OnItemClickListener()		//为ListView添加项单击事件
-		{
+		
+		//为ListView添加项单击事件
+		lvinfo.setOnItemClickListener(new OnItemClickListener() {
 			// 覆写onItemClick方法
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -53,6 +57,7 @@ public class InAccountInfo extends BaseActivity {
 				String strid = strInfo.substring(0, strInfo.indexOf('|'));				//从收入信息中截取收入编号
 				Intent intent = new Intent(InAccountInfo.this, InfoManagement.class);	//创建Intent对象
 				intent.putExtra(FLAG, new String[] { strid, strType });					//设置传递数据
+				intent.putExtra("userID", userID);
 				startActivity(intent);													//执行Intent操作
 			}
 		});
@@ -61,7 +66,9 @@ public class InAccountInfo extends BaseActivity {
 		btnreturn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(InAccountInfo.this, MainActivity.class));
+				Intent intent = new Intent(InAccountInfo.this, MainActivity.class);
+				intent.putExtra("userID", userID);
+				startActivity(intent);
 			}
 		});
 	}
@@ -73,8 +80,7 @@ public class InAccountInfo extends BaseActivity {
 		strType = "btnininfo";							//为strType变量赋值
 		InAccountDAO inaccountinfo = new InAccountDAO(InAccountInfo.this);//创建InAccountDAO对象
 		//获取所有收入信息，并存储到List泛型集合中
-		List<TableInAccount> listinfos = inaccountinfo.getScrollData(0,
-				(int) inaccountinfo.getCount());
+		List<TableInAccount> listinfos = inaccountinfo.getScrollData(userID, 0, (int) inaccountinfo.getCount(userID));
 		strInfos = new String[listinfos.size()];		//设置字符串数组的长度
 		int m = 0;										//定义一个开始标识
 		//遍历List泛型集合

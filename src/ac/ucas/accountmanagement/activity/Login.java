@@ -59,6 +59,7 @@ public class Login extends BaseActivity {
 				}
 				//判断密码是否正确
 				else if(pwdDAO.find(txtloginname.getText().toString()).getPassword().equals(txtloginpwd.getText().toString())) {
+					intent.putExtra("userID", txtloginname.getText().toString());
 					startActivity(intent);
 				}
 				else {
@@ -89,6 +90,7 @@ public class Login extends BaseActivity {
 				else {
 					pwdDAO.add(new TablePassword(txtloginname.getText().toString(), txtloginpwd.getText().toString()));
 					Toast.makeText(Login.this, "注册成功", Toast.LENGTH_SHORT).show();
+					intent.putExtra("userID", txtloginname.getText().toString());
 					startActivity(intent);
 				}
 				txtloginname.setText("");	//清空用户名文本框

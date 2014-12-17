@@ -16,6 +16,7 @@ package ac.ucas.accountmanagement.model;
 
 public class TableInAccount {
 	
+	private String userID;
 	private int _id;		// 存储收入编号
 	private double money;	// 存储收入金额
 	private String time;	// 存储收入时间
@@ -29,9 +30,10 @@ public class TableInAccount {
 	}
 
 	//定义有参构造函数，用来初始化收入信息实体类中的各个字段
-	public TableInAccount(int _id, double money, String time, String type,
+	public TableInAccount(String userID, int _id, double money, String time, String type,
 			String handler, String mark) {
 		super();
+		this.userID = userID;
 		this._id = _id;		//为收入编号赋值
 		this.money = money;	//为收入金额赋值
 		this.time = time;	//为收入时间赋值
@@ -40,6 +42,13 @@ public class TableInAccount {
 		this.mark = mark;	//为收入备注赋值
 	}
 
+	public String get_userID() {
+		return userID;
+	}
+	
+	public void set_userID(String userID) {
+		this.userID = userID;
+	}
 	//获取输入编号
 	public int get_id() {
 		return _id;

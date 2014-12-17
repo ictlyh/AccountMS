@@ -29,29 +29,33 @@ public class Sysset extends BaseActivity {
 	EditText txtuserid;					//创建EditText对象
 	EditText txtpwd;					//创建EditText对象
 	Button betconf, btnsetCancle, btnsetReset;//创建两个Button对象
+	String userID;						//保存参数userid
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.sysset);					//设置布局文件
-		txtuserid = (EditText) findViewById(R.id.txtUserID);//获取用户名文本框
-		txtpwd = (EditText) findViewById(R.id.txtPwd);		//获取密码文本框
-		betconf = (Button) findViewById(R.id.btnConf);		//获取确定按钮
-		btnsetReset = (Button) findViewById(R.id.btnsetReset);//获取重置按钮
+		setContentView(R.layout.sysset);						//设置布局文件
+		txtuserid = (EditText) findViewById(R.id.txtUserID);	//获取用户名文本框
+		txtpwd = (EditText) findViewById(R.id.txtPwd);			//获取密码文本框
+		betconf = (Button) findViewById(R.id.btnConf);			//获取确定按钮
+		btnsetReset = (Button) findViewById(R.id.btnsetReset);	//获取重置按钮
 		btnsetCancle = (Button) findViewById(R.id.btnsetCancle);//获取取消按钮
+		userID = this.getIntent().getStringExtra("userID");		//获取userID
 
 		//为确定按钮添加监听事件
 		betconf.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				PwdDAO pwdDAO = new PwdDAO(Sysset.this);// 创建PwdDAO对象
-				//根据输入的用户名和密码创建TablePassword对象
-				//TablePassword tb_pwd = new TablePassword(txtuserid.getText().toString(), txtpwd.getText().toString());
+				//判断输入的用户名是否为当前用户名
+				if( !userID.equals(txtuserid.getText().toString())) {
+					Toast.makeText(Sysset.this, "请输入当前用户名", Toast.LENGTH_SHORT).show();
+				}
 				//判断用户名和密码是否正确
-				if(pwdDAO.find(txtuserid.getText().toString()) != null && 
-						pwdDAO.find(txtuserid.getText().toString()).getPassword().equals(txtpwd.getText().toString())) {
+				else if(pwdDAO.find(userID) != null && 
+						pwdDAO.find(userID).getPassword().equals(txtpwd.getText().toString())) {
 					Intent intent = new Intent(Sysset.this, ChangePwd.class);// 使用ChangePwd窗口初始化Intent
-					intent.putExtra("userID", txtuserid.getText().toString());
+					intent.putExtra("userID", userID);
 					startActivity(intent);// 打开ChangePwd
 				}
 				else {
@@ -77,7 +81,9 @@ public class Sysset extends BaseActivity {
 		btnsetCancle.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(Sysset.this, MainActivity.class));
+				Intent intent = new Intent(new Intent(Sysset.this, MainActivity.class));	//创建Intent对象
+				intent.putExtra("userID", userID);
+				startActivity(intent);
 			}
 		});
 	}

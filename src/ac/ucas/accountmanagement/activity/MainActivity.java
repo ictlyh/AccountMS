@@ -42,13 +42,14 @@ public class MainActivity extends BaseActivity {
 			R.drawable.outaccountinfo, R.drawable.inaccountinfo,
 			R.drawable.showinfo, R.drawable.sysset,
 			R.drawable.accountflag, R.drawable.exit };
+	String userID;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
+		userID = this.getIntent().getStringExtra("userID");					//获取userID
 		gvInfo = (GridView) findViewById(R.id.gvInfo);						//获取布局文件中的gvInfo组件
 		pictureAdapter adapter = new pictureAdapter(titles, images, this);	//创建pictureAdapter对象
 		gvInfo.setAdapter(adapter);											//为GridView设置数据源
@@ -62,36 +63,43 @@ public class MainActivity extends BaseActivity {
 				case 0:
 					//使用AddOutAccount窗口初始化Intent
 					intent = new Intent(MainActivity.this, AddOutAccount.class);
+					intent.putExtra("userID", userID);
 					startActivity(intent);//打开AddOutAccount
 					break;
 				case 1:
 					//使用AddInAccount窗口初始化Intent
 					intent = new Intent(MainActivity.this, AddInAccount.class);
+					intent.putExtra("userID", userID);
 					startActivity(intent);//打开AddInAccount
 					break;
 				case 2:
 					//使用OutAccountInfo窗口初始化Intent
 					intent = new Intent(MainActivity.this, OutAccountInfo.class);
+					intent.putExtra("userID", userID);
 					startActivity(intent);//打开OutAccountInfo
 					break;
 				case 3:
 					//使用InAccountInfo窗口初始化Intent
 					intent = new Intent(MainActivity.this, InAccountInfo.class);
+					intent.putExtra("userID", userID);
 					startActivity(intent);//打开InAccountInfo
 					break;
 				case 4:
 					//使用ShowInfo窗口初始化Intent
 					intent = new Intent(MainActivity.this, ShowInfo.class);
+					intent.putExtra("userID", userID);
 					startActivity(intent);//打开ShowInfo
 					break;
 				case 5:
 					//使用Sysset窗口初始化Intent
 					intent = new Intent(MainActivity.this, Sysset.class);
+					intent.putExtra("userID", userID);
 					startActivity(intent);//打开Sysset
 					break;
 				case 6:
 					//使用AccountFlag窗口初始化Intent
 					intent = new Intent(MainActivity.this, AccountFlag.class);
+					intent.putExtra("userID", userID);
 					startActivity(intent);//打开AccountFlag
 					break;
 				case 7:

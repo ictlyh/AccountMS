@@ -43,6 +43,7 @@ public class InfoManagement extends BaseActivity {
 	Button btnEdit, btnDel;								//创建两个Button对象
 	String[] strInfos;									//定义字符串数组
 	String strid, strType;								//定义两个字符串变量，分别用来记录信息编号和管理类型
+	String userID;										//保存参数userid
 	
 	// Create an ArrayAdapter using the string array and a default spinner layout
 	ArrayAdapter<CharSequence> adapter ;
@@ -67,6 +68,7 @@ public class InfoManagement extends BaseActivity {
 		txtMark = (EditText) findViewById(R.id.txtInOutMark);	//获取备注文本框
 		btnEdit = (Button) findViewById(R.id.btnInOutEdit);		//获取修改按钮
 		btnDel = (Button) findViewById(R.id.btnInOutDelete);	//获取删除按钮
+		userID = this.getIntent().getStringExtra("userID");		//获取userID
 
 		Intent intent = getIntent();							//创建Intent对象
 		Bundle bundle = intent.getExtras();						//获取传入的数据，并使用Bundle记录
@@ -84,7 +86,7 @@ public class InfoManagement extends BaseActivity {
 			tvtitle.setText("支出管理");							//设置标题为“支出管理”
 			textView.setText("地  点：");							//设置“地点/付款方”标签文本为“地 点：”
 			//根据编号查找支出信息，并存储到TableOutAccount对象中
-			TableOutAccount tb_outaccount = outaccountDAO.find(Integer.parseInt(strid));
+			TableOutAccount tb_outaccount = outaccountDAO.find(userID, Integer.parseInt(strid));
 			txtMoney.setText(String.valueOf(tb_outaccount.getMoney()));//显示金额
 			txtTime.setText(tb_outaccount.getTime());			//显示时间
 			spType.setPrompt(tb_outaccount.getType());			//显示类别
@@ -102,7 +104,7 @@ public class InfoManagement extends BaseActivity {
 			tvtitle.setText("收入管理");							//设置标题为“收入管理”
 			textView.setText("付款方：");						//设置“地点/付款方”标签文本为“付款方：”
 			//根据编号查找收入信息，并存储到TableInAccount对象中
-			TableInAccount tb_inaccount = inaccountDAO.find(Integer.parseInt(strid));
+			TableInAccount tb_inaccount = inaccountDAO.find(userID, Integer.parseInt(strid));
 			txtMoney.setText(String.valueOf(tb_inaccount.getMoney()));// 显示金额
 			txtTime.setText(tb_inaccount.getTime());			//显示时间
 			spType.setPrompt(tb_inaccount.getType());			//显示类别
@@ -125,6 +127,7 @@ public class InfoManagement extends BaseActivity {
 				//判断类型如果是btnoutinfo
 				if (strType.equals("btnoutinfo")) {
 					TableOutAccount tb_outaccount = new TableOutAccount();	//创建TableOutAccount对象
+					tb_outaccount.set_userID(userID);						//
 					tb_outaccount.set_id(Integer.parseInt(strid));			//设置编号
 					tb_outaccount.setMoney(Double.parseDouble(txtMoney.getText().toString()));//设置金额
 					tb_outaccount.setTime(txtTime.getText().toString());	//设置时间
@@ -136,6 +139,7 @@ public class InfoManagement extends BaseActivity {
 				//判断类型如果是btnininfo
 				else if (strType.equals("btnininfo")) {
 					TableInAccount tb_inaccount = new TableInAccount();		//创建TableInAccount对象
+					tb_inaccount.set_userID(userID);
 					tb_inaccount.set_id(Integer.parseInt(strid));			//设置编号
 					tb_inaccount.setMoney(Double.parseDouble(txtMoney.getText().toString()));//设置金额
 					tb_inaccount.setTime(txtTime.getText().toString());		//设置时间
@@ -156,11 +160,11 @@ public class InfoManagement extends BaseActivity {
 			public void onClick(View arg0) {
 				//判断类型如果是btnoutinfo
 				if (strType.equals("btnoutinfo")) {
-					outaccountDAO.detele(Integer.parseInt(strid));	//根据编号删除支出信息
+					outaccountDAO.detele(userID, Integer.parseInt(strid));	//根据编号删除支出信息
 				}
 				//判断类型如果是btnininfo
 				else if (strType.equals("btnininfo")) {
-					inaccountDAO.detele(Integer.parseInt(strid));	//根据编号删除收入信息
+					inaccountDAO.detele(userID, Integer.parseInt(strid));	//根据编号删除收入信息
 				}
 				Toast.makeText(InfoManagement.this, "数据删除成功", Toast.LENGTH_SHORT).show();
 				InfoManagement.this.finish();

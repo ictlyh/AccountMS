@@ -35,6 +35,7 @@ public class OutAccountInfo extends BaseActivity {
 	ListView lvinfo;							//创建ListView对象
 	String strType = "";						//创建字符串，记录管理类型
 	Button btnreturn;							//关联返回按钮
+	String userID;								//保存参数userid
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class OutAccountInfo extends BaseActivity {
 		setContentView(R.layout.outaccountinfo);//设置布局文件
 		lvinfo = (ListView) findViewById(R.id.lvoutaccountinfo);//获取布局文件中的ListView组件
 		btnreturn = (Button) findViewById(R.id.btnoutreturn);	//获取布局文件中的返回按钮
+		userID = this.getIntent().getStringExtra("userID");		//获取userID
 
 		ShowInfo(R.id.btnoutinfo);//调用自定义方法显示支出信息
 
@@ -54,6 +56,7 @@ public class OutAccountInfo extends BaseActivity {
 				String strid = strInfo.substring(0, strInfo.indexOf('|'));		//从支出信息中截取支出编号
 				Intent intent = new Intent(OutAccountInfo.this,InfoManagement.class);//创建Intent对象
 				intent.putExtra(FLAG, new String[] { strid, strType });			//设置传递数据
+				intent.putExtra("userID", userID);
 				startActivity(intent);											//执行Intent操作
 			}
 		});
@@ -62,7 +65,9 @@ public class OutAccountInfo extends BaseActivity {
 		btnreturn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				startActivity(new Intent(OutAccountInfo.this, MainActivity.class));
+				Intent intent = new Intent(OutAccountInfo.this, MainActivity.class);
+				intent.putExtra("userID", userID);
+				startActivity(intent);
 			}
 		});
 	}
@@ -74,7 +79,7 @@ public class OutAccountInfo extends BaseActivity {
 		strType = "btnoutinfo";						//为strType变量赋值
 		OutAccountDAO outaccountinfo = new OutAccountDAO(OutAccountInfo.this);// 创建OutAccountDAO对象
 		//获取所有支出信息，并存储到List泛型集合中
-		List<TableOutAccount> listoutinfos = outaccountinfo.getScrollData(0, (int) outaccountinfo.getCount());
+		List<TableOutAccount> listoutinfos = outaccountinfo.getScrollData(userID, 0, (int) outaccountinfo.getCount(userID));
 		strInfos = new String[listoutinfos.size()];	//设置字符串数组的长度
 		int i = 0;									//定义一个开始标识
 		//遍历List泛型集合

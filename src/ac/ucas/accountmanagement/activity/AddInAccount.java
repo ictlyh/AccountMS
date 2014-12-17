@@ -38,7 +38,7 @@ public class AddInAccount extends BaseActivity {
 	Button btnInSaveButton;										//创建Button对象“保存”
 	Button btnInCancelButton;									//创建Button对象“取消”
 	Button btnInResetButton;									//创建Button对象“重置”
-
+	String userID;												//保存参数userid
 	private int mYear;											//年
 	private int mMonth;											//月
 	private int mDay;											//日
@@ -55,6 +55,7 @@ public class AddInAccount extends BaseActivity {
 		btnInSaveButton = (Button) findViewById(R.id.btnInSave);//获取保存按钮
 		btnInCancelButton = (Button) findViewById(R.id.btnInCancel);//获取取消按钮
 		btnInResetButton = (Button) findViewById(R.id.btnInReset);//获取取消按钮
+		userID = this.getIntent().getStringExtra("userID");			//获取userID
 
 		//为时间文本框设置单击监听事件
 		txtInTime.setOnClickListener(new OnClickListener() {
@@ -75,7 +76,8 @@ public class AddInAccount extends BaseActivity {
 					InAccountDAO inaccountDAO = new InAccountDAO(AddInAccount.this);
 					//创建TableInAccount对象
 					TableInAccount tb_inaccount = new TableInAccount(
-							inaccountDAO.getMaxId() + 1,
+							userID,
+							inaccountDAO.getMaxId(userID) + 1,
 							Double.parseDouble(strInMoney),
 							txtInTime.getText().toString(),
 							spInType.getSelectedItem().toString(),
@@ -85,7 +87,9 @@ public class AddInAccount extends BaseActivity {
 					//弹出信息提示
 					Toast.makeText(AddInAccount.this, "收入添加成功", Toast.LENGTH_SHORT).show();
 					//调转到主页面
-					startActivity(new Intent(AddInAccount.this, MainActivity.class));
+					Intent intent = new Intent(AddInAccount.this, MainActivity.class);
+					intent.putExtra("userID", userID);
+					startActivity(intent);
 				} else {
 					Toast.makeText(AddInAccount.this, "请输入金额", Toast.LENGTH_SHORT).show();
 				}
@@ -111,7 +115,9 @@ public class AddInAccount extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				//返回主页面
-				startActivity(new Intent(AddInAccount.this, MainActivity.class));
+				Intent intent = new Intent(AddInAccount.this, MainActivity.class);
+				intent.putExtra("userID", userID);
+				startActivity(intent);
 			}
 		});
 

@@ -30,6 +30,7 @@ public class FlagManagement extends BaseActivity {
 	EditText txtFlag;					//创建EditText对象
 	Button btnEdit, btnDel;				//创建两个Button对象
 	String strid;						//创建字符串，表示便签的id
+	String userID;						//保存参数userid
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +39,20 @@ public class FlagManagement extends BaseActivity {
 		txtFlag = (EditText) findViewById(R.id.txtFlagManage);		//获取便签文本框
 		btnEdit = (Button) findViewById(R.id.btnFlagManageEdit);	//获取修改按钮
 		btnDel = (Button) findViewById(R.id.btnFlagManageDelete);	//获取删除按钮
+		userID = this.getIntent().getStringExtra("userID");			//获取userID
 
 		Intent intent = getIntent();								//创建Intent对象
 		Bundle bundle = intent.getExtras();							//获取便签id
 		strid = bundle.getString(ShowInfo.FLAG);					//将便签id转换为字符串
 		final FlagDAO flagDAO = new FlagDAO(FlagManagement.this);	//创建FlagDAO对象
-		txtFlag.setText(flagDAO.find(Integer.parseInt(strid)).getFlag());//根据便签id查找便签信息，并显示在文本框中
+		txtFlag.setText(flagDAO.find(userID, Integer.parseInt(strid)).getFlag());//根据便签id查找便签信息，并显示在文本框中
 
 		//为修改按钮设置监听事件
 		btnEdit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				TableFlag tb_flag = new TableFlag();				//创建TableFlag对象
+				tb_flag.set_userID(userID);
 				tb_flag.set_id(Integer.parseInt(strid));			//设置便签id
 				tb_flag.setFlag(txtFlag.getText().toString());		//设置便签值
 				flagDAO.update(tb_flag);							//修改便签信息
@@ -63,7 +66,7 @@ public class FlagManagement extends BaseActivity {
 		btnDel.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				flagDAO.detele(Integer.parseInt(strid));			//根据指定的id删除便签信息
+				flagDAO.detele(userID, Integer.parseInt(strid));	//根据指定的id删除便签信息
 				Toast.makeText(FlagManagement.this, "便签删除成功", Toast.LENGTH_SHORT).show();
 				FlagManagement.this.finish();
 			}
