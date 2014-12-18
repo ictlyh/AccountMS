@@ -36,12 +36,13 @@ public class MainActivity extends BaseActivity {
 	GridView gvInfo;//创建GridView对象
 	//定义字符串数组，存储系统功能
 	String[] titles = new String[] { "新增支出", "新增收入", "我的支出",
-			"我的收入", "数据管理","更改密码", "新增便签", "退出" };
+			"我的收入", "数据管理","更改密码", "新增便签", "同步数据", "退出" };
 	//定义int数组，存储功能对应的图标
 	int[] images = new int[] { R.drawable.addoutaccount, R.drawable.addinaccount,
 			R.drawable.outaccountinfo, R.drawable.inaccountinfo,
 			R.drawable.showinfo, R.drawable.sysset,
-			R.drawable.accountflag, R.drawable.exit };
+			R.drawable.accountflag, R.drawable.synchronize,
+			R.drawable.exit };
 	String userID;
 
 	/** Called when the activity is first created. */
@@ -103,6 +104,12 @@ public class MainActivity extends BaseActivity {
 					startActivity(intent);//打开AccountFlag
 					break;
 				case 7:
+					//使用AccountFlag窗口初始化Intent
+					intent = new Intent(MainActivity.this, Synchronize.class);
+					intent.putExtra("userID", userID);
+					startActivity(intent);//打开Synchronize
+					break;
+				case 8:
 					finishAll();//关闭所有Activity
 				}
 			}

@@ -22,10 +22,10 @@ public final class R {
         public static final int appicon=0x7f020003;
         public static final int exit=0x7f020004;
         public static final int ic_launcher=0x7f020005;
-        public static final int icon=0x7f020006;
-        public static final int inaccountinfo=0x7f020007;
-        public static final int outaccountinfo=0x7f020008;
-        public static final int showinfo=0x7f020009;
+        public static final int inaccountinfo=0x7f020006;
+        public static final int outaccountinfo=0x7f020007;
+        public static final int showinfo=0x7f020008;
+        public static final int synchronize=0x7f020009;
         public static final int sysset=0x7f02000a;
     }
     public static final class id {
@@ -35,7 +35,7 @@ public final class R {
         public static final int btnChPwdConf=0x7f060026;
         public static final int btnChPwdReset=0x7f060025;
         public static final int btnClose=0x7f060045;
-        public static final int btnConf=0x7f060055;
+        public static final int btnConf=0x7f060059;
         public static final int btnFlagManageDelete=0x7f06002a;
         public static final int btnFlagManageEdit=0x7f06002b;
         public static final int btnInCancel=0x7f060011;
@@ -57,8 +57,11 @@ public final class R {
         public static final int btnoutinfo=0x7f06004b;
         public static final int btnoutreturn=0x7f06004a;
         public static final int btnreturn=0x7f06004f;
-        public static final int btnsetCancle=0x7f060053;
-        public static final int btnsetReset=0x7f060054;
+        public static final int btnsetCancle=0x7f060057;
+        public static final int btnsetReset=0x7f060058;
+        public static final int btnsynback=0x7f060053;
+        public static final int btnsyndownload=0x7f060052;
+        public static final int btnsynupload=0x7f060051;
         public static final int flagmanage=0x7f060027;
         public static final int gvInfo=0x7f060048;
         public static final int initem=0x7f060006;
@@ -76,6 +79,7 @@ public final class R {
         public static final int spInOutType=0x7f06003b;
         public static final int spInType=0x7f06000c;
         public static final int spType=0x7f06001a;
+        public static final int syntitle=0x7f060050;
         public static final int tvAddress=0x7f06001b;
         public static final int tvFlag=0x7f060001;
         public static final int tvFlagManage=0x7f060028;
@@ -92,7 +96,7 @@ public final class R {
         public static final int tvLogin=0x7f060042;
         public static final int tvMark=0x7f06001d;
         public static final int tvMoney=0x7f060015;
-        public static final int tvPwd=0x7f060050;
+        public static final int tvPwd=0x7f060054;
         public static final int tvTime=0x7f060017;
         public static final int tvType=0x7f060019;
         public static final int txtAddress=0x7f06001c;
@@ -112,9 +116,9 @@ public final class R {
         public static final int txtLoginPwd=0x7f060044;
         public static final int txtMark=0x7f06001e;
         public static final int txtMoney=0x7f060016;
-        public static final int txtPwd=0x7f060052;
+        public static final int txtPwd=0x7f060056;
         public static final int txtTime=0x7f060018;
-        public static final int txtUserID=0x7f060051;
+        public static final int txtUserID=0x7f060055;
     }
     public static final class layout {
         public static final int accountflag=0x7f030000;
@@ -129,7 +133,8 @@ public final class R {
         public static final int main=0x7f030009;
         public static final int outaccountinfo=0x7f03000a;
         public static final int showinfo=0x7f03000b;
-        public static final int sysset=0x7f03000c;
+        public static final int synchronize=0x7f03000c;
+        public static final int sysset=0x7f03000d;
     }
     public static final class string {
         public static final int accountflag=0x7f050012;
@@ -166,6 +171,10 @@ public final class R {
         public static final int reset=0x7f050018;
         public static final int save=0x7f050016;
         public static final int showinfo=0x7f050011;
+        public static final int synchronize=0x7f050026;
+        public static final int syndownload=0x7f050029;
+        public static final int syntype=0x7f050027;
+        public static final int synupload=0x7f050028;
         public static final int sysset=0x7f050005;
         public static final int time=0x7f050025;
         public static final int type=0x7f050023;

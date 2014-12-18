@@ -60,7 +60,7 @@ public class FlagDAO {
 	 */
 	public TableFlag find(String userId, int id) {
 		db = helper.getWritableDatabase();	//初始化SQLiteDatabase对象
-		Cursor cursor = db.rawQuery("select userID,_id,flag from tb_flag where userID = ? and_id = ?",
+		Cursor cursor = db.rawQuery("select userID,_id,flag from tb_flag where userID = ? and _id = ?",
 				new String[] { userId, String.valueOf(id) });//根据编号查找便签信息，并存储到Cursor类中
 		//db.close();
 		//遍历查找到的便签信息
