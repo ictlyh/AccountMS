@@ -22,11 +22,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
@@ -45,7 +49,8 @@ import ac.ucas.accountmanagementsystem.R;
 
 public class Synchronize extends BaseActivity {
 	
-	static String HOST = "http://111.195.219.50:8080/accountms/synchronize/";
+	static String HOST = "http://124.16.78.167:8080/accountms/synchronize/";
+	static String PHPHandler = "handler.php";
 	static String DIR = Environment.getExternalStorageDirectory().getPath() + "/";
 	static String FILENAME = "tmp.txt";
 	Button btnsynupload;		//上传到服务器按钮
@@ -127,68 +132,21 @@ public class Synchronize extends BaseActivity {
 	
 	//上传文件到服务器
 	private void uploadFile(String userId, String fileName) {
-		//String BOUNDARY = UUID.randomUUID().toString(); // 边界标识 随机生成
         File file = new File(fileName);   // 要上传的文件
-        String host = HOST + "param?userID=" + userId; //要上传的带参数的服务器地址
-        /*try {
-        	byte[] after = ("--" + BOUNDARY + "--\r\n").getBytes("UTF-8");
-            
-            // 构造URL和Connection
-            URL url = new URL(host);            
-            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-            // 设置HTTP协议的头属性
-            conn.setDoInput(true); 					// 允许输入流
-			conn.setDoOutput(true); 				// 允许输出流
-			conn.setUseCaches(false); 				// 不允许使用缓存
-			conn.setReadTimeout(10 * 1000);			// 超时时间10s
-			conn.setConnectTimeout(10 * 1000);		// 超时时间10s
-			conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
-            conn.setRequestProperty("Content-Length", String.valueOf(file.length()));
-            conn.setRequestProperty("HOST", url.getHost());
-			conn.setRequestMethod("POST"); 			// 请求方式
-			conn.setRequestProperty("Charset", "UTF-8"); // 设置编码
-			conn.setRequestProperty("connection", "keep-alive");
-            
-            // 得到Connection的OutputStream流，准备写数据
-            OutputStream out = conn.getOutputStream();
-            // 得到文件的输入流
-            InputStream in = new FileInputStream(file);
-            
-            // 写文件数据
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = in.read(buf)) != -1) {
-                out.write(buf, 0, len);
-            }
-            // 数据结束标志，整个HTTP报文就构造结束了。
-            out.write(after);
-            in.close();
-            out.close();
-            flag = 1;
-            Log.d("Synchronize.uploadFile():", "uploadFile 返回码为: " + conn.getResponseCode());
-            Log.d("Synchronize.uploadFile():", "uploadFile 返回信息为: " + conn.getResponseMessage());
-            conn.disconnect();
-        }
-        catch (MalformedURLException e) {
-        	Log.d("Synchronize uploadFile", "MalformedURLException" + e.getMessage());
-            flag = 2;
-        }catch (SocketTimeoutException e) {
-        	Log.d("Synchronize uploadFile", "SocketTimeoutException" + e.getMessage());
-            flag = 2;
-        } catch (IOException e) {
-        	Log.d("Synchronize uploadFile", "IOException" + e.getMessage());
-            flag = 2;
-        }*/
+        String host = HOST + PHPHandler + "?userID=" + userId;//要上传的带参数的服务器地址
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost(HOST);
+        HttpPost httppost = new HttpPost(host);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-        reqEntity.addPart("userfile", new FileBody (file));
+        reqEntity.addPart("file", new FileBody (file));
         httppost.setEntity(reqEntity);
         try {
-			HttpResponse response = httpclient.execute(httppost);
+			httpclient.execute(httppost);
+			flag = 1;
 		} catch (ClientProtocolException e) {
+			flag = 2;
 			Log.d("Synchronize uploadFile", e.getMessage());
 		} catch (IOException e) {
+			flag = 2;
 			Log.d("Synchronize uploadFile", e.getMessage());
 		}
     }
@@ -220,14 +178,14 @@ public class Synchronize extends BaseActivity {
             Log.d("Synchronize.downloadFile():", "uploadFile 返回信息为: " + conn.getResponseMessage());*/
 			conn.disconnect(); 	// 关闭连接
 		} catch(MalformedURLException e) {
-			Log.d("Synchronize downloadFile","MalformedURLException" + e.getMessage());
+			Log.d("Synchronize downloadFile", e.getMessage());
 			flag = 4;
 		} catch(SocketTimeoutException e) {
-			Log.d("Synchronize downloadFile","SocketTimeoutException" + e.getMessage());
+			Log.d("Synchronize downloadFile", e.getMessage());
 			flag = 4;
 		} catch(IOException e) {
-			Log.d("Synchronize downloadFile", "IOException" + e.getMessage());
+			Log.d("Synchronize downloadFile", e.getMessage());
 			flag = 4;
-		} 
+		}
 	}
 }
