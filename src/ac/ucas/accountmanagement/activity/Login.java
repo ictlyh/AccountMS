@@ -14,8 +14,20 @@
 
 package ac.ucas.accountmanagement.activity;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -29,6 +41,7 @@ public class Login extends BaseActivity {
 	
 	EditText txtloginname, txtloginpwd;			//创建两个EditText对象
 	Button btnlogin, btnregist, btnclose;		//创建两个Button对象
+	private Handler handler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +72,14 @@ public class Login extends BaseActivity {
 				}
 				//判断密码是否正确
 				else if(pwdDAO.find(txtloginname.getText().toString()).getPassword().equals(txtloginpwd.getText().toString())) {
+					// 创建一个新线程，用于向服务器注册用户
+					new Thread(new Runnable() {
+						public void run() {
+							register(txtloginname.getText().toString(), txtloginpwd.getText().toString());
+							Message m = handler.obtainMessage(); // 获取一个Message
+							handler.sendMessage(m); // 发送消息
+						}
+					}).start(); // 开启线程
 					intent.putExtra("userID", txtloginname.getText().toString());
 					startActivity(intent);
 				}
@@ -89,6 +110,14 @@ public class Login extends BaseActivity {
 				//插入用户名和密码到数据库
 				else {
 					pwdDAO.add(new TablePassword(txtloginname.getText().toString(), txtloginpwd.getText().toString()));
+					// 创建一个新线程，用于向服务器注册用户
+					new Thread(new Runnable() {
+						public void run() {
+							register(txtloginname.getText().toString(), txtloginpwd.getText().toString());
+							Message m = handler.obtainMessage(); // 获取一个Message
+							handler.sendMessage(m); // 发送消息
+						}
+					}).start(); // 开启线程
 					Toast.makeText(Login.this, "注册成功", Toast.LENGTH_SHORT).show();
 					intent.putExtra("userID", txtloginname.getText().toString());
 					startActivity(intent);
@@ -105,5 +134,50 @@ public class Login extends BaseActivity {
 				finishAll();//退出当前程序
 			}
 		});
+		
+		handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				super.handleMessage(msg);
+			}
+		};
+	}
+	
+	private void register(String id, String pwd) {
+		String target = "http://124.16.78.167:8080/accountms/handler.php";
+		URL url;
+		try{
+			url = new URL(target);
+			HttpURLConnection urlConn = (HttpURLConnection) url.openConnection(); 	// 创建一个HTTP连接
+			urlConn.setRequestMethod("POST"); 										// 指定使用POST请求方式
+			urlConn.setDoInput(true); 												// 向连接中写入数据
+			urlConn.setDoOutput(true); 												// 从连接中读取数据
+			urlConn.setUseCaches(false); 											// 禁止缓存
+			urlConn.setInstanceFollowRedirects(true);								//自动执行HTTP重定向
+			urlConn.setRequestProperty("Content-Type","application/x-www-form-urlencoded"); // 设置内容类型
+			DataOutputStream out = new DataOutputStream(urlConn.getOutputStream()); // 获取输出流
+			String param = "userID=" + id + "&pwd=" + pwd + "&type=regist";			//连接要提交的数据
+			out.writeBytes(param);													//将要传递的数据写入数据输出流
+			out.flush();	//输出缓存
+			out.close();	//关闭数据输出流
+			// 判断是否响应成功
+			if (urlConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+				//Log.d("Login", "Connection error,upload userid and pwd to server next time");
+				InputStreamReader in = new InputStreamReader(urlConn.getInputStream()); // 获得读取的内容
+				BufferedReader buffer = new BufferedReader(in); // 获取输入流对象
+				String inputLine = null;
+				String result = "";
+				while ((inputLine = buffer.readLine()) != null) {
+					result += inputLine + "\n";
+				}
+				Log.d("Login", result);
+				in.close();	//关闭字符输入流
+			}
+			urlConn.disconnect();//断开连接
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

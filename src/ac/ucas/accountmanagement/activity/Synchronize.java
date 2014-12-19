@@ -14,10 +14,13 @@
 
 package ac.ucas.accountmanagement.activity;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
@@ -49,7 +52,7 @@ import ac.ucas.accountmanagementsystem.R;
 
 public class Synchronize extends BaseActivity {
 	
-	static String HOST = "http://124.16.78.167:8080/accountms/synchronize/";
+	static String HOST = "http://124.16.78.167:8080/accountms/";
 	static String PHPHandler = "handler.php";
 	static String DIR = Environment.getExternalStorageDirectory().getPath() + "/";
 	static String FILENAME = "tmp.txt";
@@ -91,12 +94,37 @@ public class Synchronize extends BaseActivity {
 			public void onClick(View arg0) {
 				new Thread(new Runnable() {
 					public void run() {
-						String sourceUrl = HOST + FILENAME;
-						downloadFile(userID, sourceUrl);
-						DBOpenHelper db = new DBOpenHelper(Synchronize.this);
-						db.importFromFile(userID, DIR + FILENAME);
-						Message m = handler.obtainMessage(); // 获取一个Message
-						handler.sendMessage(m); // 发送消息
+						String target = "http://124.16.78.167:8080/accountms/handler.php";
+						URL url;
+						try{
+							url = new URL(target);
+							HttpURLConnection urlConn = (HttpURLConnection) url.openConnection(); 	// 创建一个HTTP连接
+							urlConn.setRequestMethod("POST"); 										// 指定使用POST请求方式
+							urlConn.setDoInput(true); 												// 向连接中写入数据
+							urlConn.setDoOutput(true); 												// 从连接中读取数据
+							urlConn.setUseCaches(false); 											// 禁止缓存
+							urlConn.setInstanceFollowRedirects(true);								//自动执行HTTP重定向
+							urlConn.setRequestProperty("Content-Type","application/x-www-form-urlencoded"); // 设置内容类型
+							DataOutputStream out = new DataOutputStream(urlConn.getOutputStream()); // 获取输出流
+							String param = "userID=" + userID + "&type=download";					//连接要提交的数据
+							out.writeBytes(param);													//将要传递的数据写入数据输出流
+							out.flush();	//输出缓存
+							out.close();	//关闭数据输出流
+							// 判断是否响应成功
+							if (urlConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+								String sourceUrl = HOST + FILENAME;
+								downloadFile(userID, sourceUrl);
+								DBOpenHelper db = new DBOpenHelper(Synchronize.this);
+								db.importFromFile(userID, DIR + FILENAME);
+								Message m = handler.obtainMessage(); // 获取一个Message
+								handler.sendMessage(m); // 发送消息
+							}
+							urlConn.disconnect();//断开连接
+						} catch (MalformedURLException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 				}).start();
 			}
@@ -133,7 +161,7 @@ public class Synchronize extends BaseActivity {
 	//上传文件到服务器
 	private void uploadFile(String userId, String fileName) {
         File file = new File(fileName);   // 要上传的文件
-        String host = HOST + PHPHandler + "?userID=" + userId;//要上传的带参数的服务器地址
+        String host = HOST + PHPHandler + "?userID=" + userId + "&type=upload";//要上传的带参数的服务器地址
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(host);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
