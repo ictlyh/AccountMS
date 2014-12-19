@@ -72,7 +72,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 	public void exportToFile(String userId, String filePath) {
 		String line = null;
 		String space = ",";
-		//Log.d("DBOpenHelper exportToFile", "filePath = " + filePath);
 		File file = new File(filePath);
 		//文件不存在
 		if(!file.exists()){
@@ -81,7 +80,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			//Log.d("DBOpenHelper exportToFile", "create file " + filePath + " success");
 		}
 		BufferedWriter bw = null;
 		try {
@@ -89,9 +87,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		/*if(bw == null) {
-			Log.e("DBOpenHelper exportToFile", "bw = null int line 88");
-		}*/
 		
 		SQLiteDatabase db = getWritableDatabase();	// 初始化SQLiteDatabase对象
 		
@@ -113,7 +108,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 		}
 		// 记录数目
 		line = String.valueOf(tb_inaccount.size());
-		//Log.d("DBOpenHelper exportToFile", "line = " + line);
 		try {
 			bw.write(line, 0, line.length());
 			bw.newLine();
@@ -138,7 +132,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 			line += space;
 			line += tmp.getMark();
 			line += space;
-			//Log.d("DBOpenHelper exportToFile", "line = " + line);
 			try {
 				bw.write(line, 0, line.length());
 				bw.newLine();
@@ -165,7 +158,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 		}
 		// 记录数目
 		line = String.valueOf(tb_outaccount.size());
-		//Log.d("DBOpenHelper exportToFile", "line = " + line);
 		try {
 			bw.write(line, 0, line.length());
 			bw.newLine();
@@ -190,7 +182,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 			line += space;
 			line += tmp.getMark();
 			line += space;
-			//Log.d("DBOpenHelper exportToFile", "line = " + line);
 			try {
 				bw.write(line, 0, line.length());
 				bw.newLine();
@@ -213,7 +204,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 		}
 		// 便签数目
 		line = String.valueOf(lisTb_flags.size());
-		//Log.d("DBOpenHelper exportToFile", "line = " + line);
 		try {
 			bw.write(line, 0, line.length());
 			bw.newLine();
@@ -230,7 +220,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 			line += space;
 			line += tmp.getFlag();
 			line += space;
-			//Log.d("DBOpenHelper exportToFile", "line = " + line);
 			try {
 				bw.write(line, 0, line.length());
 				bw.newLine();
@@ -274,7 +263,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 		try {
 			//读取收入信息数目
 			line = br.readLine();
-			//Log.d("DBOpenHelper importFromFile", "line = " + line);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -284,7 +272,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 				//按行读取收入信息
 				int begin = 0, end;
 				line = br.readLine();
-				//Log.d("DBOpenHelper importFromFile", "line = " + line);
 				end = line.indexOf(space);
 				userID = line.substring(begin, end);
 				begin = end + 1;
@@ -317,7 +304,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 		try {
 			//读取支出信息数目
 			line = br.readLine();
-			//Log.d("DBOpenHelper importFromFile", "line = " + line);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -327,7 +313,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 				//按行读取支出信息
 				int begin = 0, end;
 				line = br.readLine();
-				//Log.d("DBOpenHelper importFromFile", "line = " + line);
 				end = line.indexOf(space);
 				userID = line.substring(begin, end);
 				begin = end + 1;
@@ -360,7 +345,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 		try {
 			//读取便签信息数目
 			line = br.readLine();
-			//Log.d("DBOpenHelper importFromFile", "line = " + line);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -370,7 +354,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 				//按行读取便签
 				int begin = 0, end;
 				line = br.readLine();
-				//Log.d("DBOpenHelper importFromFile", "line = " + line);
 				end = line.indexOf(space);
 				userID = line.substring(begin, end);
 				begin = end + 1;

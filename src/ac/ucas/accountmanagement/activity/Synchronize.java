@@ -15,17 +15,26 @@
 package ac.ucas.accountmanagement.activity;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,14 +45,15 @@ import ac.ucas.accountmanagementsystem.R;
 
 public class Synchronize extends BaseActivity {
 	
-	static String HOST = "http://host:port/accountms/upload/";
-	//static String DIR = "/mnt/sdcard/";
+	static String HOST = "http://111.195.219.50:8080/accountms/synchronize/";
 	static String DIR = Environment.getExternalStorageDirectory().getPath() + "/";
 	static String FILENAME = "tmp.txt";
 	Button btnsynupload;		//上传到服务器按钮
 	Button btnsyndownload;		//从服务器同步按钮
 	Button btnsynback;			//返回按钮
 	String userID;				//保存参数userid
+	Handler handler;			//
+	int flag = 0;				//标记是否成功
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +68,15 @@ public class Synchronize extends BaseActivity {
 		btnsynupload.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				DBOpenHelper db = new DBOpenHelper(Synchronize.this);
-				db.exportToFile(userID, DIR + FILENAME);
-				//uploadFile(userID, DIR + FILENAME);
-				Toast.makeText(Synchronize.this, "已同步到服务器", Toast.LENGTH_SHORT).show();
+				new Thread(new Runnable() {
+					public void run() {
+						//DBOpenHelper db = new DBOpenHelper(Synchronize.this);
+						//db.exportToFile(userID, DIR + FILENAME);
+						uploadFile(userID, DIR + FILENAME);
+						Message m = handler.obtainMessage(); // 获取一个Message
+						handler.sendMessage(m); // 发送消息
+					}
+				}).start();
 			}
 		});
 
@@ -69,11 +84,16 @@ public class Synchronize extends BaseActivity {
 		btnsyndownload.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				String sourceUrl = HOST + FILENAME;
-				//downloadFile(userID, sourceUrl);
-				DBOpenHelper db = new DBOpenHelper(Synchronize.this);
-				db.importFromFile(userID, DIR + FILENAME);
-				Toast.makeText(Synchronize.this, "已和服务器同步", Toast.LENGTH_SHORT).show();
+				new Thread(new Runnable() {
+					public void run() {
+						String sourceUrl = HOST + FILENAME;
+						downloadFile(userID, sourceUrl);
+						DBOpenHelper db = new DBOpenHelper(Synchronize.this);
+						db.importFromFile(userID, DIR + FILENAME);
+						Message m = handler.obtainMessage(); // 获取一个Message
+						handler.sendMessage(m); // 发送消息
+					}
+				}).start();
 			}
 		});
 		
@@ -87,50 +107,90 @@ public class Synchronize extends BaseActivity {
 				startActivity(intent);
 			}
 		});
+		
+		handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				if (flag == 1) {
+					Toast.makeText(Synchronize.this, "同步至服务器成功",Toast.LENGTH_SHORT).show();
+				} else if (flag == 2) {
+					Toast.makeText(Synchronize.this, "同步至服务器失败",Toast.LENGTH_SHORT).show();
+				} else if(flag == 3) {
+					Toast.makeText(Synchronize.this, "从服务器同步成功",Toast.LENGTH_SHORT).show();
+				} else if(flag == 4) {
+					Toast.makeText(Synchronize.this, "从服务器同步失败",Toast.LENGTH_SHORT).show();
+				}
+				super.handleMessage(msg);
+			}
+		};
 	}
 	
 	//上传文件到服务器
 	private void uploadFile(String userId, String fileName) {
-        String BOUNDARY = "---------------------------7db1c523809b2";//数据分割线
+		//String BOUNDARY = UUID.randomUUID().toString(); // 边界标识 随机生成
         File file = new File(fileName);   // 要上传的文件
         String host = HOST + "param?userID=" + userId; //要上传的带参数的服务器地址
-        
-        try {
-            //byte[] after = ("--" + BOUNDARY + "--\n").getBytes("UTF-8");
+        /*try {
+        	byte[] after = ("--" + BOUNDARY + "--\r\n").getBytes("UTF-8");
             
             // 构造URL和Connection
             URL url = new URL(host);            
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-            
             // 设置HTTP协议的头属性
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
+            conn.setDoInput(true); 					// 允许输入流
+			conn.setDoOutput(true); 				// 允许输出流
+			conn.setUseCaches(false); 				// 不允许使用缓存
+			conn.setReadTimeout(10 * 1000);			// 超时时间10s
+			conn.setConnectTimeout(10 * 1000);		// 超时时间10s
+			conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
             conn.setRequestProperty("Content-Length", String.valueOf(file.length()));
             conn.setRequestProperty("HOST", url.getHost());
-            conn.setDoOutput(true);
+			conn.setRequestMethod("POST"); 			// 请求方式
+			conn.setRequestProperty("Charset", "UTF-8"); // 设置编码
+			conn.setRequestProperty("connection", "keep-alive");
             
             // 得到Connection的OutputStream流，准备写数据
             OutputStream out = conn.getOutputStream();
+            // 得到文件的输入流
             InputStream in = new FileInputStream(file);
             
-            // 写文件数据。因为服务器地址已经带有参数了，所以这里只要直接写入文件部分就可以了。
+            // 写文件数据
             byte[] buf = new byte[1024];
             int len;
             while ((len = in.read(buf)) != -1) {
                 out.write(buf, 0, len);
             }
             // 数据结束标志，整个HTTP报文就构造结束了。
-            //out.write(after);
+            out.write(after);
             in.close();
             out.close();
-            //Log.d("Synchronize.uploadFile():", "uploadFile 返回码为: " + conn.getResponseCode());
-            //Log.d("Synchronize.uploadFile():", "uploadFile 返回信息为: " + conn.getResponseMessage());   
+            flag = 1;
+            Log.d("Synchronize.uploadFile():", "uploadFile 返回码为: " + conn.getResponseCode());
+            Log.d("Synchronize.uploadFile():", "uploadFile 返回信息为: " + conn.getResponseMessage());
+            conn.disconnect();
         }
         catch (MalformedURLException e) {
-            e.printStackTrace();
+        	Log.d("Synchronize uploadFile", "MalformedURLException" + e.getMessage());
+            flag = 2;
+        }catch (SocketTimeoutException e) {
+        	Log.d("Synchronize uploadFile", "SocketTimeoutException" + e.getMessage());
+            flag = 2;
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+        	Log.d("Synchronize uploadFile", "IOException" + e.getMessage());
+            flag = 2;
+        }*/
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(HOST);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+        reqEntity.addPart("userfile", new FileBody (file));
+        httppost.setEntity(reqEntity);
+        try {
+			HttpResponse response = httpclient.execute(httppost);
+		} catch (ClientProtocolException e) {
+			Log.d("Synchronize uploadFile", e.getMessage());
+		} catch (IOException e) {
+			Log.d("Synchronize uploadFile", e.getMessage());
+		}
     }
 	
 	//从服务器下载文件
@@ -139,16 +199,11 @@ public class Synchronize extends BaseActivity {
 			//创建下载地址对应的URL对象
 			URL url = new URL(sourceUrl);
 			// 创建一个连接
-			HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			// 获取输入流对象
-			InputStream is = urlConn.getInputStream();
+			InputStream is = conn.getInputStream();
 			if (is != null) {
-				// 获取文件的扩展名
-				String expandName = sourceUrl.substring(sourceUrl.lastIndexOf(".") + 1, sourceUrl.length()).toLowerCase();
-				// 获取文件名
-				String fileName = sourceUrl.substring(sourceUrl.lastIndexOf("/") + 1, sourceUrl.lastIndexOf("."));
-				// 在SD卡上创建文件
-				File file = new File(Environment.getExternalStorageDirectory().getPath() + fileName + "." + expandName);
+				File file = new File(DIR + FILENAME);
 				// 创建一个文件输出流对象
 				FileOutputStream fos = new FileOutputStream(file);
 				byte buf[] = new byte[128];
@@ -159,13 +214,20 @@ public class Synchronize extends BaseActivity {
 				}
 				fos.close();
 			}
-			is.close(); 			// 关闭输入流对象
-			urlConn.disconnect(); 	// 关闭连接
+			is.close(); 		// 关闭输入流对象
+			flag = 3;
+			/*Log.d("Synchronize.downloadFile():", "uploadFile 返回码为: " + conn.getResponseCode());
+            Log.d("Synchronize.downloadFile():", "uploadFile 返回信息为: " + conn.getResponseMessage());*/
+			conn.disconnect(); 	// 关闭连接
 		} catch(MalformedURLException e) {
-			e.printStackTrace();
+			Log.d("Synchronize downloadFile","MalformedURLException" + e.getMessage());
+			flag = 4;
+		} catch(SocketTimeoutException e) {
+			Log.d("Synchronize downloadFile","SocketTimeoutException" + e.getMessage());
+			flag = 4;
 		} catch(IOException e) {
-			e.printStackTrace();
-		}
+			Log.d("Synchronize downloadFile", "IOException" + e.getMessage());
+			flag = 4;
+		} 
 	}
-
 }
