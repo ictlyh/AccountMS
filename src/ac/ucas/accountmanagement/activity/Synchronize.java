@@ -14,13 +14,11 @@
 
 package ac.ucas.accountmanagement.activity;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
@@ -78,8 +76,8 @@ public class Synchronize extends BaseActivity {
 			public void onClick(View arg0) {
 				new Thread(new Runnable() {
 					public void run() {
-						//DBOpenHelper db = new DBOpenHelper(Synchronize.this);
-						//db.exportToFile(userID, DIR + FILENAME);
+						DBOpenHelper db = new DBOpenHelper(Synchronize.this);
+						db.exportToFile(userID, DIR + FILENAME);
 						uploadFile(userID, DIR + FILENAME);
 						Message m = handler.obtainMessage(); // 获取一个Message
 						handler.sendMessage(m); // 发送消息
@@ -160,15 +158,18 @@ public class Synchronize extends BaseActivity {
 	
 	//上传文件到服务器
 	private void uploadFile(String userId, String fileName) {
-        File file = new File(fileName);   // 要上传的文件
-        String host = HOST + PHPHandler + "?userID=" + userId + "&type=upload";//要上传的带参数的服务器地址
+        File file = new File(fileName);		// 要上传的文件
+        String host = HOST + PHPHandler;	//要上传的带参数的服务器地址
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(host);
         MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
         reqEntity.addPart("file", new FileBody (file));
         httppost.setEntity(reqEntity);
+        HttpResponse response;
+        HttpEntity resEntity = null;
         try {
-			httpclient.execute(httppost);
+			response = httpclient.execute(httppost);
+			resEntity = response.getEntity();
 			flag = 1;
 		} catch (ClientProtocolException e) {
 			flag = 2;
@@ -177,6 +178,15 @@ public class Synchronize extends BaseActivity {
 			flag = 2;
 			Log.d("Synchronize uploadFile", e.getMessage());
 		}
+        if(resEntity != null) {
+        	try {
+				Log.d("Synchronize uploadFile", EntityUtils.toString(resEntity).trim());
+			} catch (ParseException e) {
+				Log.d("Synchronize uploadFile", e.getMessage());
+			} catch (IOException e) {
+				Log.d("Synchronize uploadFile", e.getMessage());
+			}
+        }
     }
 	
 	//从服务器下载文件

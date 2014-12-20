@@ -88,6 +88,13 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 			e1.printStackTrace();
 		}
 		
+		// 写入userid到文件
+		try {
+			bw.write(userId, 0, userId.length());
+			bw.newLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		SQLiteDatabase db = getWritableDatabase();	// 初始化SQLiteDatabase对象
 		
 		// 导出收入信息
@@ -106,32 +113,26 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 					cursor.getString(cursor.getColumnIndex("handler")),
 					cursor.getString(cursor.getColumnIndex("mark"))));
 		}
-		// 记录数目
+		/*// 记录数目
 		line = String.valueOf(tb_inaccount.size());
 		try {
 			bw.write(line, 0, line.length());
 			bw.newLine();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		Iterator<TableInAccount> inIte = tb_inaccount.iterator();
 		// 写记录到文件
 		while(inIte.hasNext()) {
 			TableInAccount tmp = inIte.next();
-			line = tmp.get_userID();
-			line += space;
-			line += tmp.get_id();
-			line += space;
-			line += tmp.getMoney();
-			line += space;
-			line += tmp.getTime();
-			line += space;
-			line += tmp.getType();
-			line += space;
-			line += tmp.getHandler();
-			line += space;
-			line += tmp.getMark();
-			line += space;
+			line = "\"insert into tb_inaccount values("
+					+ "\'" + tmp.get_userID() + "\',"
+					+ tmp.get_id() + ","
+					+ tmp.getMoney() + ","
+					+ "\'" + tmp.getTime() + "\',"
+					+ "\'" + tmp.getType() + "\',"
+					+ "\'" + tmp.getHandler() + "\',"
+					+ "\'" + tmp.getMark() + "\');\"";
 			try {
 				bw.write(line, 0, line.length());
 				bw.newLine();
@@ -156,32 +157,26 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 					cursor.getString(cursor.getColumnIndex("address")),
 					cursor.getString(cursor.getColumnIndex("mark"))));
 		}
-		// 记录数目
+		/*// 记录数目
 		line = String.valueOf(tb_outaccount.size());
 		try {
 			bw.write(line, 0, line.length());
 			bw.newLine();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		Iterator<TableOutAccount> outIte = tb_outaccount.iterator();
 		// 将记录写入文件
 		while(outIte.hasNext()) {
 			TableOutAccount tmp = outIte.next();
-			line = tmp.get_userID();
-			line += space;
-			line += tmp.get_id();
-			line += space;
-			line += tmp.getMoney();
-			line += space;
-			line += tmp.getTime();
-			line += space;
-			line += tmp.getType();
-			line += space;
-			line += tmp.getAddress();
-			line += space;
-			line += tmp.getMark();
-			line += space;
+			line = "\"insert into tb_outaccount values("
+					+ "\'" + tmp.get_userID() + "\',"
+					+ tmp.get_id() + ","
+					+ tmp.getMoney() + ","
+					+ "\'" + tmp.getTime() + "\',"
+					+ "\'" + tmp.getType() + "\',"
+					+ "\'" + tmp.getAddress() + "\',"
+					+ "\'" + tmp.getMark() + "\');\"";
 			try {
 				bw.write(line, 0, line.length());
 				bw.newLine();
@@ -202,24 +197,22 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 					cursor.getInt(cursor.getColumnIndex("_id")),
 					cursor.getString(cursor.getColumnIndex("flag"))));
 		}
-		// 便签数目
+		/*// 便签数目
 		line = String.valueOf(lisTb_flags.size());
 		try {
 			bw.write(line, 0, line.length());
 			bw.newLine();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		Iterator<TableFlag> flagIte = lisTb_flags.iterator();
 		// 将记录写入文件
 		while(flagIte.hasNext()) {
 			TableFlag tmp = flagIte.next();
-			line = tmp.get_userID();
-			line += space;
-			line += tmp.get_id();
-			line += space;
-			line += tmp.getFlag();
-			line += space;
+			line = "\"insert into tb_flag values("
+					+ "\'" + tmp.get_userID() + "\',"
+					+ tmp.get_id() + ","
+					+ "\'" + tmp.getFlag() + "\');\"";
 			try {
 				bw.write(line, 0, line.length());
 				bw.newLine();
