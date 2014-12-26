@@ -48,14 +48,14 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db){
 	
-		db.execSQL("create table if not exists tb_outaccount (userID varchar(20), _id integer, money decimal,"
+		db.execSQL("create table if not exists tb_outaccount (userID varchar(10), _id integer, money decimal,"
 				+ "time varchar(10), type varchar(10), address varchar(100), mark varchar(200),"
 				+ "primary key(userID, _id))");// 创建支出信息表
-		db.execSQL("create table  if not exists tb_inaccount (userID varchar(20), _id integer, money decimal,"
+		db.execSQL("create table  if not exists tb_inaccount (userID varchar(10), _id integer, money decimal,"
 				+ "time varchar(10), type varchar(10),handler varchar(100),mark varchar(200),"
 				+ "primary key(userID, _id))");// 创建收入信息表
-		db.execSQL("create table  if not exists tb_pwd (_id varchar(20) primary key,password varchar(20))");// 创建密码表
-		db.execSQL("create table  if not exists tb_flag (userID varchar(20), _id integer, flag varchar(200),"
+		db.execSQL("create table  if not exists tb_pwd (_id varchar(10) primary key,password varchar(32))");// 创建密码表
+		db.execSQL("create table  if not exists tb_flag (userID varchar(10), _id integer, flag varchar(200),"
 				+ "primary key(userID, _id))");// 创建便签信息表
 	}
 
@@ -71,7 +71,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 	//导出数据库到文件
 	public void exportToFile(String userId, String filePath) {
 		String line = null;
-		String space = ",";
 		File file = new File(filePath);
 		//文件不存在
 		if(!file.exists()){
@@ -113,26 +112,19 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 					cursor.getString(cursor.getColumnIndex("handler")),
 					cursor.getString(cursor.getColumnIndex("mark"))));
 		}
-		/*// 记录数目
-		line = String.valueOf(tb_inaccount.size());
-		try {
-			bw.write(line, 0, line.length());
-			bw.newLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
+
 		Iterator<TableInAccount> inIte = tb_inaccount.iterator();
 		// 写记录到文件
 		while(inIte.hasNext()) {
 			TableInAccount tmp = inIte.next();
-			line = "\"insert into tb_inaccount values("
+			line = "INSERT INTO tb_inaccount VALUES("
 					+ "\'" + tmp.get_userID() + "\',"
 					+ tmp.get_id() + ","
 					+ tmp.getMoney() + ","
 					+ "\'" + tmp.getTime() + "\',"
 					+ "\'" + tmp.getType() + "\',"
 					+ "\'" + tmp.getHandler() + "\',"
-					+ "\'" + tmp.getMark() + "\');\"";
+					+ "\'" + tmp.getMark() + "\');";
 			try {
 				bw.write(line, 0, line.length());
 				bw.newLine();
@@ -157,26 +149,19 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 					cursor.getString(cursor.getColumnIndex("address")),
 					cursor.getString(cursor.getColumnIndex("mark"))));
 		}
-		/*// 记录数目
-		line = String.valueOf(tb_outaccount.size());
-		try {
-			bw.write(line, 0, line.length());
-			bw.newLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
+
 		Iterator<TableOutAccount> outIte = tb_outaccount.iterator();
 		// 将记录写入文件
 		while(outIte.hasNext()) {
 			TableOutAccount tmp = outIte.next();
-			line = "\"insert into tb_outaccount values("
+			line = "INSERT INTO tb_outaccount VALUES("
 					+ "\'" + tmp.get_userID() + "\',"
 					+ tmp.get_id() + ","
 					+ tmp.getMoney() + ","
 					+ "\'" + tmp.getTime() + "\',"
 					+ "\'" + tmp.getType() + "\',"
 					+ "\'" + tmp.getAddress() + "\',"
-					+ "\'" + tmp.getMark() + "\');\"";
+					+ "\'" + tmp.getMark() + "\');";
 			try {
 				bw.write(line, 0, line.length());
 				bw.newLine();
@@ -197,22 +182,15 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 					cursor.getInt(cursor.getColumnIndex("_id")),
 					cursor.getString(cursor.getColumnIndex("flag"))));
 		}
-		/*// 便签数目
-		line = String.valueOf(lisTb_flags.size());
-		try {
-			bw.write(line, 0, line.length());
-			bw.newLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
+
 		Iterator<TableFlag> flagIte = lisTb_flags.iterator();
 		// 将记录写入文件
 		while(flagIte.hasNext()) {
 			TableFlag tmp = flagIte.next();
-			line = "\"insert into tb_flag values("
+			line = "INSERT INTO tb_flag VALUES("
 					+ "\'" + tmp.get_userID() + "\',"
 					+ tmp.get_id() + ","
-					+ "\'" + tmp.getFlag() + "\');\"";
+					+ "\'" + tmp.getFlag() + "\');";
 			try {
 				bw.write(line, 0, line.length());
 				bw.newLine();
@@ -242,7 +220,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 		
 		File file = new File(filePath);
 		if(!file.exists()){
-			Log.d("DBOpenHelper importFromFile", "can not open file " + filePath);
+			Log.d("DBOpenHelper importFromFile", "Can not open file " + filePath);
 			System.exit(0);
 		}
 		BufferedReader br = null;

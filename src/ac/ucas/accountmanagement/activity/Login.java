@@ -142,7 +142,7 @@ public class Login extends BaseActivity {
 	}
 	
 	private void register(String id, String pwd) {
-		String target = "http://124.16.78.167:8080/accountms/handler.php";
+		String target = "http://115.28.137.207/accountms/handler.php";
 		URL url;
 		try{
 			url = new URL(target);
@@ -160,7 +160,6 @@ public class Login extends BaseActivity {
 			out.close();	//关闭数据输出流
 			// 判断是否响应成功
 			if (urlConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-				//Log.d("Login", "Connection error,upload userid and pwd to server next time");
 				InputStreamReader in = new InputStreamReader(urlConn.getInputStream()); // 获得读取的内容
 				BufferedReader buffer = new BufferedReader(in); // 获取输入流对象
 				String inputLine = null;
@@ -168,7 +167,6 @@ public class Login extends BaseActivity {
 				while ((inputLine = buffer.readLine()) != null) {
 					result += inputLine + "\n";
 				}
-				Log.d("Login", result);
 				in.close();	//关闭字符输入流
 			}
 			urlConn.disconnect();//断开连接

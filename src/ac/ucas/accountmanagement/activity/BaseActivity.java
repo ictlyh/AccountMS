@@ -37,7 +37,6 @@ public class BaseActivity extends Activity {
 		}
 		allActivitys.clear();
 		 //这个主要是用来关闭进程的, 光把所有activity finish的话，进程是不会关闭的
-		System.exit(0);  
-//		android.os.Process.killProcess(android.os.Process.myPid()); 
+		System.exit(0);
 	}
 }

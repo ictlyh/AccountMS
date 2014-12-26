@@ -23,7 +23,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -50,7 +49,7 @@ import ac.ucas.accountmanagementsystem.R;
 
 public class Synchronize extends BaseActivity {
 	
-	static String HOST = "http://124.16.78.167:8080/accountms/";
+	static String HOST = "http://115.28.137.207/accountms/";
 	static String PHPHandler = "handler.php";
 	static String DIR = Environment.getExternalStorageDirectory().getPath() + "/";
 	static String FILENAME = "tmp.txt";
@@ -92,7 +91,7 @@ public class Synchronize extends BaseActivity {
 			public void onClick(View arg0) {
 				new Thread(new Runnable() {
 					public void run() {
-						String target = "http://124.16.78.167:8080/accountms/handler.php";
+						String target = HOST + PHPHandler;
 						URL url;
 						try{
 							url = new URL(target);
@@ -150,6 +149,8 @@ public class Synchronize extends BaseActivity {
 					Toast.makeText(Synchronize.this, "从服务器同步成功",Toast.LENGTH_SHORT).show();
 				} else if(flag == 4) {
 					Toast.makeText(Synchronize.this, "从服务器同步失败",Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(Synchronize.this, "同步失败,请检查网络连接",Toast.LENGTH_SHORT).show();
 				}
 				super.handleMessage(msg);
 			}
@@ -173,20 +174,9 @@ public class Synchronize extends BaseActivity {
 			flag = 1;
 		} catch (ClientProtocolException e) {
 			flag = 2;
-			Log.d("Synchronize uploadFile", e.getMessage());
 		} catch (IOException e) {
 			flag = 2;
-			Log.d("Synchronize uploadFile", e.getMessage());
 		}
-        if(resEntity != null) {
-        	try {
-				Log.d("Synchronize uploadFile", EntityUtils.toString(resEntity).trim());
-			} catch (ParseException e) {
-				Log.d("Synchronize uploadFile", e.getMessage());
-			} catch (IOException e) {
-				Log.d("Synchronize uploadFile", e.getMessage());
-			}
-        }
     }
 	
 	//从服务器下载文件
@@ -212,17 +202,12 @@ public class Synchronize extends BaseActivity {
 			}
 			is.close(); 		// 关闭输入流对象
 			flag = 3;
-			/*Log.d("Synchronize.downloadFile():", "uploadFile 返回码为: " + conn.getResponseCode());
-            Log.d("Synchronize.downloadFile():", "uploadFile 返回信息为: " + conn.getResponseMessage());*/
 			conn.disconnect(); 	// 关闭连接
 		} catch(MalformedURLException e) {
-			Log.d("Synchronize downloadFile", e.getMessage());
 			flag = 4;
 		} catch(SocketTimeoutException e) {
-			Log.d("Synchronize downloadFile", e.getMessage());
 			flag = 4;
 		} catch(IOException e) {
-			Log.d("Synchronize downloadFile", e.getMessage());
 			flag = 4;
 		}
 	}
