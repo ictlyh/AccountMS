@@ -100,11 +100,13 @@ public class Synchronize extends BaseActivity {
 							urlConn.setDoInput(true); 												// 向连接中写入数据
 							urlConn.setDoOutput(true); 												// 从连接中读取数据
 							urlConn.setUseCaches(false); 											// 禁止缓存
-							urlConn.setInstanceFollowRedirects(true);								//自动执行HTTP重定向
+							urlConn.setConnectTimeout(3000);										// 设置连接超时
+							urlConn.setReadTimeout(3000);
+							urlConn.setInstanceFollowRedirects(true);								// 自动执行HTTP重定向
 							urlConn.setRequestProperty("Content-Type","application/x-www-form-urlencoded"); // 设置内容类型
 							DataOutputStream out = new DataOutputStream(urlConn.getOutputStream()); // 获取输出流
-							String param = "userID=" + userID + "&type=download";					//连接要提交的数据
-							out.writeBytes(param);													//将要传递的数据写入数据输出流
+							String param = "userID=" + userID + "&type=download";					// 连接要提交的数据
+							out.writeBytes(param);													// 将要传递的数据写入数据输出流
 							out.flush();	//输出缓存
 							out.close();	//关闭数据输出流
 							// 判断是否响应成功
@@ -120,11 +122,11 @@ public class Synchronize extends BaseActivity {
 							}
 							urlConn.disconnect();//断开连接
 						} catch (MalformedURLException e) {
+							flag = 4;
+						} catch (SocketTimeoutException e) {
 							flag = 5;
-							e.printStackTrace();
-						} catch (IOException e) {
-							flag = 5;
-							e.printStackTrace();
+						} catch (Exception e) {
+							flag = 4;
 						}
 					}
 				}).start();
@@ -190,6 +192,8 @@ public class Synchronize extends BaseActivity {
 			URL url = new URL(sourceUrl);
 			// 创建一个连接
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setConnectTimeout(3000);
+			conn.setReadTimeout(3000);
 			// 获取输入流对象
 			InputStream is = conn.getInputStream();
 			if (is != null) {
@@ -210,8 +214,8 @@ public class Synchronize extends BaseActivity {
 		} catch(MalformedURLException e) {
 			flag = 4;
 		} catch(SocketTimeoutException e) {
-			flag = 4;
-		} catch(IOException e) {
+			flag = 5;
+		} catch(Exception e) {
 			flag = 4;
 		}
 	}
