@@ -115,11 +115,15 @@ public class Synchronize extends BaseActivity {
 								db.importFromFile(userID, DIR + FILENAME);
 								Message m = handler.obtainMessage(); // 获取一个Message
 								handler.sendMessage(m); // 发送消息
+							} else {
+								flag = 5;
 							}
 							urlConn.disconnect();//断开连接
 						} catch (MalformedURLException e) {
+							flag = 5;
 							e.printStackTrace();
 						} catch (IOException e) {
+							flag = 5;
 							e.printStackTrace();
 						}
 					}
